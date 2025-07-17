@@ -1,7 +1,6 @@
 using Unity.Cinemachine;
 using UnityEngine;
 
-[RequireComponent(typeof(CharacterController))] /// añade un character controller si falta en el personaje y hace que no haga falta tener un rigidbody
 public class PlayerController : MonoBehaviour
 {
     [Header("Player Movement")]
@@ -29,24 +28,15 @@ public class PlayerController : MonoBehaviour
     float pitch;
     float yaw;
 
-    [Header("Components")]
-    [SerializeField] Rigidbody rb;
-    //[SerializeField] Animator animator;
-
-    [Header("TEST")]
-    [SerializeField] Camera playerCamera;
+    [Header("FirstPerson Settings")]
     [SerializeField] CinemachineCamera fpCamera;
-    [SerializeField] float gravity = 10f;
     [SerializeField] float lookSpeed = 2f;
-    [SerializeField] float lookXLimit = 45f;
-
     [SerializeField] Transform lookAt;
     [SerializeField] Vector3 lookAtOffset;
 
-    Vector3 moveDirection = Vector3.zero;
-    float rotationX = 0f;
-    public bool canMove = true;
-    CharacterController characterController;
+    [Header("Components")]
+    [SerializeField] Rigidbody rb;
+    //[SerializeField] Animator animator;
 
     private void Start()
     {
@@ -56,7 +46,6 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         CameraRotation();
-        //CameraRotation2();
     }
 
     private void FixedUpdate()
@@ -64,8 +53,6 @@ public class PlayerController : MonoBehaviour
         GroundChecker();
 
         PlayerMovement();
-        //PlayerMovement2();
-
         PlayerJump();
 
         UpdateCameraMovement();
@@ -82,8 +69,6 @@ public class PlayerController : MonoBehaviour
 
     void InitialSettings()
     {
-        characterController = GetComponent<CharacterController>();
-
         if (rb != null)
         {
             rb = GetComponent<Rigidbody>();
@@ -97,11 +82,11 @@ public class PlayerController : MonoBehaviour
 
         defaultPlayerSpeed = playerSpeed;
 
-        //yaw = transform.eulerAngles.y;
+        yaw = transform.eulerAngles.y;
         Cursor.lockState = CursorLockMode.Locked;
     }
 
-    void PlayerMovement() /// Prueba nº1: como lo hicimos en clase
+    void PlayerMovement()
     {
         Vector3 input = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical")).normalized;
 
@@ -132,40 +117,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void PlayerMovement2() /// Prueba nº2: visto en un turorial
-    {
-        //Vector3 input = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical")).normalized;
-
-        Vector3 forward = transform.TransformDirection(Vector3.forward);
-        Vector3 right = transform.TransformDirection(Vector3.right);
-
-        //bool isMoving = input.magnitude >= 0.1f;
-        bool isRunning = Input.GetKey(runKey);
-
-        float curSpeedX = canMove ? (isRunning ? runningSpeed : playerSpeed) * Input.GetAxis("Vertical") : 0f;
-        float curSpeedY = canMove ? (isRunning ? runningSpeed : playerSpeed) * Input.GetAxis("Horizontal") : 0f;
-        float movementDirectionY = moveDirection.y;
-
-        moveDirection = (forward * curSpeedX) + (right * curSpeedY);
-
-        /// Saltar
-        if (Input.GetButton("Jump") && canMove && characterController.isGrounded)
-        {
-            moveDirection.y = jumpForce;
-        }
-        else
-        {
-            moveDirection.y = movementDirectionY;
-        }
-
-        if (!characterController.isGrounded)
-        {
-            moveDirection.y -= gravity * Time.deltaTime;
-        }
-
-        characterController.Move(moveDirection * Time.deltaTime);
-    }
-
     void PlayerJump()
     {
         if (isGrounded && Input.GetButton("Jump"))
@@ -173,6 +124,7 @@ public class PlayerController : MonoBehaviour
             rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             hasJumped = true;
+
         } else
         {
             hasJumped = false;
@@ -192,9 +144,11 @@ public class PlayerController : MonoBehaviour
 
     void CameraRotation()
     {
+        // Ratón
         float mouseX = Input.GetAxis("Mouse X") * mouseSensibility;
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensibility;
 
+        // Mando
         float rightStickX = Input.GetAxis("RightStickHorizontal");
         float rightStickY = Input.GetAxis("RightStickVertical");
 
@@ -209,51 +163,6 @@ public class PlayerController : MonoBehaviour
 
         pitch = Mathf.Clamp(pitch, minPitch, maxPitch);
         transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0); // Para que el personaje rote junto a la camara
-
-        ///// TEST 3 /////
-        //Quaternion cameraRotation = Quaternion.Euler(pitch, yaw, 0);
-        //rotationX += -Input.GetAxis("Mouse Y") * lookSpeed;
-        //rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
-
-        //cameraTransform.localRotation = cameraRotation;
-        //cameraTransform.rotation = cameraRotation;
-        //playerCamera.transform.localRotation = cameraRotation;
-        //transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
-
-        /////// TEST 1 ///////
-        //Vector3 input = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical")).normalized;
-        //bool isMoving = input.magnitude >= 0.1f;
-        //bool isRunning = isMoving && Input.GetKey(runKey);
-
-        //if (isRunning)
-        //{
-        //    cameraOffset = new Vector3(0, 0.5f, 1.5f);
-        //    pitch = Mathf.Clamp(pitch, -40, 40); ;
-        //}
-        //else
-        //{
-        //    pitch = Mathf.Clamp(pitch, minPitch, maxPitch);
-        //    cameraOffset = new Vector3(0, 0.5f, 1f);
-        //}
-
-        ////// TEST 2 //////
-        //rotationX += -Input.GetAxis("Mouse Y") * lookSpeed;
-        //rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
-        //fpCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
-        //lookAt.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
-    }
-
-    void CameraRotation2() /// Si se usa esta forma, no hace falta el UpdateCameraMovement()
-    {
-        //characterController.Move(moveDirection * Time.deltaTime);
-
-        if (canMove)
-        {
-            rotationX += -Input.GetAxis("Mouse Y") * lookSpeed;
-            rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
-            playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
-            transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
-        }
     }
 
     void UpdateCameraMovement()
@@ -261,16 +170,11 @@ public class PlayerController : MonoBehaviour
         Quaternion cameraRotation = Quaternion.Euler(pitch, yaw, 0);
         Vector3 desiredPosition = transform.position + cameraRotation * cameraOffset;
 
-
         fpCamera.transform.position = Vector3.Lerp(fpCamera.transform.position, desiredPosition, cameraFollowSpeed * Time.fixedDeltaTime);
         fpCamera.transform.rotation = cameraRotation;
 
         if (lookAt != null)
         {
-            //Vector3 lookAtPosition = fpCamera.transform.position + cameraRotation * lookAtOffset;
-            //lookAt.position = Vector3.Lerp(lookAt.position, lookAtPosition, cameraFollowSpeed * Time.fixedDeltaTime);
-            //lookAt.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
-
             Vector3 lookAtPosition = fpCamera.transform.position + cameraRotation * lookAtOffset;
             lookAt.position = Vector3.Lerp(lookAt.position, lookAtPosition, cameraFollowSpeed * Time.fixedDeltaTime);
             lookAt.rotation = cameraRotation;
