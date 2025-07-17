@@ -1,3 +1,4 @@
+using Unity.Cinemachine;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))] /// añade un character controller si falta en el personaje y hace que no haga falta tener un rigidbody
@@ -34,29 +35,18 @@ public class PlayerController : MonoBehaviour
 
     [Header("TEST")]
     [SerializeField] Camera playerCamera;
+    [SerializeField] CinemachineCamera fpCamera;
     [SerializeField] float gravity = 10f;
     [SerializeField] float lookSpeed = 2f;
     [SerializeField] float lookXLimit = 45f;
+
+    [SerializeField] Transform lookAt;
+    [SerializeField] Vector3 lookAtOffset;
 
     Vector3 moveDirection = Vector3.zero;
     float rotationX = 0f;
     public bool canMove = true;
     CharacterController characterController;
-
-    //[Header("TEST 2")]
-    ////[SerializeField] CinemachineCamera fpCamera;
-    //[SerializeField] Vector2 lookSensitivity = new Vector2(0.1f, 0.1f);
-    //[SerializeField] float pitchLimit = 45f;
-    //[SerializeField] float currentPitch = 0f;
-    //[SerializeField] Vector2 lookInput;
-    //public float CurrentPitch
-    //{
-    //    get => currentPitch;
-    //    set
-    //    {
-    //        currentPitch = Mathf.Clamp(value, -pitchLimit, pitchLimit);
-    //    }
-    //}
 
     private void Start()
     {
@@ -218,6 +208,7 @@ public class PlayerController : MonoBehaviour
         pitch -= inputY;
 
         pitch = Mathf.Clamp(pitch, minPitch, maxPitch);
+        transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0); // Para que el personaje rote junto a la camara
 
         ///// TEST 3 /////
         //Quaternion cameraRotation = Quaternion.Euler(pitch, yaw, 0);
@@ -248,8 +239,8 @@ public class PlayerController : MonoBehaviour
         ////// TEST 2 //////
         //rotationX += -Input.GetAxis("Mouse Y") * lookSpeed;
         //rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
-        //playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
-        //transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
+        //fpCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
+        //lookAt.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
     }
 
     void CameraRotation2() /// Si se usa esta forma, no hace falta el UpdateCameraMovement()
@@ -270,7 +261,19 @@ public class PlayerController : MonoBehaviour
         Quaternion cameraRotation = Quaternion.Euler(pitch, yaw, 0);
         Vector3 desiredPosition = transform.position + cameraRotation * cameraOffset;
 
-        cameraTransform.position = Vector3.Lerp(cameraTransform.position, desiredPosition, cameraFollowSpeed * Time.fixedDeltaTime);
-        cameraTransform.rotation = cameraRotation;
+
+        fpCamera.transform.position = Vector3.Lerp(fpCamera.transform.position, desiredPosition, cameraFollowSpeed * Time.fixedDeltaTime);
+        fpCamera.transform.rotation = cameraRotation;
+
+        if (lookAt != null)
+        {
+            //Vector3 lookAtPosition = fpCamera.transform.position + cameraRotation * lookAtOffset;
+            //lookAt.position = Vector3.Lerp(lookAt.position, lookAtPosition, cameraFollowSpeed * Time.fixedDeltaTime);
+            //lookAt.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
+
+            Vector3 lookAtPosition = fpCamera.transform.position + cameraRotation * lookAtOffset;
+            lookAt.position = Vector3.Lerp(lookAt.position, lookAtPosition, cameraFollowSpeed * Time.fixedDeltaTime);
+            lookAt.rotation = cameraRotation;
+        }
     }
 }
