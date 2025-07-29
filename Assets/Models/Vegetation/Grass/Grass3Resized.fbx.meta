@@ -1,9 +1,19 @@
 fileFormatVersion: 2
-guid: 899f11070a674834eadf1ec739f8bb2a
+guid: a5f70358c9c9503488e4bf0dfb99fe84
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Pampas_grass
+    second: {fileID: 2100000, guid: 66b4dea65795d194496a390beec15104, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lambert1
+    second: {fileID: 2100000, guid: 66b4dea65795d194496a390beec15104, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
