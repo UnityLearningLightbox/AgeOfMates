@@ -1,0 +1,527 @@
+fileFormatVersion: 2
+guid: 7cb2eece99311584a96ef3ffae6c4d42
+ModelImporter:
+  serializedVersion: 22200
+  internalIDToNameTable: []
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SUB_Arame
+    second: {fileID: 2100000, guid: 07250034b3df39447ae970bbf6238cef, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SUB_Bola_Azul
+    second: {fileID: 2100000, guid: c1fd0f335dcb8c54380e51368e4c3ad4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SUB_Bola_Dourada
+    second: {fileID: 2100000, guid: 9faf8e7338bce6f4493a8e434596f126, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SUB_Bola_Verde
+    second: {fileID: 2100000, guid: d9c1829ac8e6cf048a993fcf7ef0a128, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SUB_Bola_Vermelha1
+    second: {fileID: 2100000, guid: 1c76489c755b92e4e8f3998546a6ffb2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SUB_Cajado
+    second: {fileID: 2100000, guid: c249d69f50ac418488e3755af2547268, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SUB_Cone_Azul
+    second: {fileID: 2100000, guid: 16d769c1a6403fc44b4517c1d49b476c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SUB_Cone_Dourado
+    second: {fileID: 2100000, guid: 95619196e6c253b4cad359bf6054030d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SUB_Cone_Verde
+    second: {fileID: 2100000, guid: 00bc5b564fd02e346bb7d101eb946e05, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SUB_Cone_Vermelho
+    second: {fileID: 2100000, guid: 6a5dd0912dfbe3a46902a0fc1a219f35, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SUB_Corda
+    second: {fileID: 2100000, guid: efd1dc52360fd634fa76569ca16a8eb8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SUB_Mangual
+    second: {fileID: 2100000, guid: 0968ae5221ec7c346afcbdf51f5fe41f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SUB_Meio_Ponta
+    second: {fileID: 2100000, guid: 116d9224add3fbf40b440b3bc5413ea3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SUB_Ponta
+    second: {fileID: 2100000, guid: 2162438f2f8cad24eb20dffcf1c00a88, type: 2}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Cajado_MTA_Cajdado_Emissive
+    second: {fileID: 2800000, guid: 5f6cb87ca4b17e04aac2432b9cd9dcac, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Cajado_MTA_Cajdado_Height
+    second: {fileID: 2800000, guid: 40fb685181e637f4590942d7d01861f9, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Cajado_MTA_Cajdado_Metallic
+    second: {fileID: 2800000, guid: 730b1f341092ecf43a275942e6b4a6ac, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Cajado_MTA_Cajdado_Normal
+    second: {fileID: 2800000, guid: b05f0a31abca95b4a89c6f688b4a2dc3, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Cajado_MTA_Cajdado_Roughness
+    second: {fileID: 2800000, guid: e1ea1351a41ef02429fba35b8bd4a873, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mangual_2v_MTA_Arame_Emissive
+    second: {fileID: 2800000, guid: 149ccabbfbc58524c9375e5939ab1522, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mangual_2v_MTA_Arame_Height
+    second: {fileID: 2800000, guid: 8f96c32d72769004a84ebc68195f6eb4, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mangual_2v_MTA_Arame_Metallic
+    second: {fileID: 2800000, guid: c1537efc6f8e9f2469336a7fa44fdaf3, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mangual_2v_MTA_Arame_Normal
+    second: {fileID: 2800000, guid: 38012ce722255e64aa24c4819a1d3ab1, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mangual_2v_MTA_Arame_Roughness
+    second: {fileID: 2800000, guid: eee70354724b5004fa517e807082319e, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mangual_2v_MTA_Bola_Azul_Emissive
+    second: {fileID: 2800000, guid: bd1cb75818eb9b64aa66a6db0d5f50b4, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mangual_2v_MTA_Bola_Azul_Height
+    second: {fileID: 2800000, guid: 0302ba62c213ed247b6df6b0fe1cb1a8, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mangual_2v_MTA_Bola_Azul_Metallic
+    second: {fileID: 2800000, guid: 38c4fb23cd3945846ac6687e8bb07bc2, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mangual_2v_MTA_Bola_Azul_Normal
+    second: {fileID: 2800000, guid: b817616fd81c7344abe684bf67aa85b0, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mangual_2v_MTA_Bola_Azul_Roughness
+    second: {fileID: 2800000, guid: 3c045ea1c0ebebd418c817c411254036, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mangual_2v_MTA_Bola_Dourada_Emissive
+    second: {fileID: 2800000, guid: 611e7d19d57390549910386992d03631, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mangual_2v_MTA_Bola_Dourada_Height
+    second: {fileID: 2800000, guid: 0625222b27ba32c4280603434487d712, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mangual_2v_MTA_Bola_Dourada_Metallic
+    second: {fileID: 2800000, guid: 0faf3093a7647374a9816def32adf0ee, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mangual_2v_MTA_Bola_Dourada_Normal
+    second: {fileID: 2800000, guid: 09dcb51d29f0b0b43bfa4038a8cb2304, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mangual_2v_MTA_Bola_Dourada_Roughness
+    second: {fileID: 2800000, guid: 99c51d6c68fdd494cb078378828ec92f, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mangual_2v_MTA_Bola_Verde_Emissive
+    second: {fileID: 2800000, guid: dfad8b110a9bd3e4b846511a4a535f76, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mangual_2v_MTA_Bola_Verde_Height
+    second: {fileID: 2800000, guid: 76033ce3def11ac40af82de2a5eb61bd, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mangual_2v_MTA_Bola_Verde_Metallic
+    second: {fileID: 2800000, guid: 3edfd10f5410a1d43b9d5773b6f6ebff, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mangual_2v_MTA_Bola_Verde_Normal
+    second: {fileID: 2800000, guid: f8f4baeb06616bb4ca6f425ae626537b, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mangual_2v_MTA_Bola_Verde_Roughness
+    second: {fileID: 2800000, guid: e4e8adb76eddb454b8f2950b297d1622, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mangual_2v_MTA_Bola_Verrmelha_Emissive
+    second: {fileID: 2800000, guid: 72f8e2325646a014da38814ba30d7d32, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mangual_2v_MTA_Bola_Verrmelha_Height
+    second: {fileID: 2800000, guid: 6f7c94581ae63f44a882a0cdc26fb910, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mangual_2v_MTA_Bola_Verrmelha_Metallic
+    second: {fileID: 2800000, guid: 8fd080135d8f52f47bc21fdbddfd3463, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mangual_2v_MTA_Bola_Verrmelha_Normal
+    second: {fileID: 2800000, guid: fd9fd6799641fc748b56617e19a85fe8, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mangual_2v_MTA_Bola_Verrmelha_Roughness
+    second: {fileID: 2800000, guid: ce3e4df3004f44e4c9e2c35a81831d46, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mangual_2v_MTA_Cone_Azul_Emissive
+    second: {fileID: 2800000, guid: dd55e0e0f7833864fba14e5919a8726f, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mangual_2v_MTA_Cone_Azul_Height
+    second: {fileID: 2800000, guid: cf39a64e2e814e54f804b2dbb36e809a, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mangual_2v_MTA_Cone_Azul_Metallic
+    second: {fileID: 2800000, guid: cbd2963ecf410b245b0382f160d485bd, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mangual_2v_MTA_Cone_Azul_Normal
+    second: {fileID: 2800000, guid: 28836e150768c854294dcdd91729ae5b, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mangual_2v_MTA_Cone_Azul_Roughness
+    second: {fileID: 2800000, guid: fa5a20fb39513464da729ca13c31778c, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mangual_2v_MTA_Cone_Dourado_Emissive
+    second: {fileID: 2800000, guid: 8b2f1957918c269479dab9c6dfa30a2a, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mangual_2v_MTA_Cone_Dourado_Height
+    second: {fileID: 2800000, guid: 25849ed93d3d6f849a2b1bdf5539cb03, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mangual_2v_MTA_Cone_Dourado_Metallic
+    second: {fileID: 2800000, guid: 19ce3abe249ee6f40b71080e15a54898, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mangual_2v_MTA_Cone_Dourado_Normal
+    second: {fileID: 2800000, guid: c6bef5de1b58a524eb9fa8c5666bc54c, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mangual_2v_MTA_Cone_Dourado_Roughness
+    second: {fileID: 2800000, guid: d9357ed3e49a8854c8f2d0903ad7db1e, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mangual_2v_MTA_Cone_Verde_Emissive
+    second: {fileID: 2800000, guid: ef2e143bcee88594e9ff833a50e41fb4, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mangual_2v_MTA_Cone_Verde_Height
+    second: {fileID: 2800000, guid: f39a867ecce599544a5d385845a63866, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mangual_2v_MTA_Cone_Verde_Metallic
+    second: {fileID: 2800000, guid: 6aa14ef982583764fbf3720ce53e9335, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mangual_2v_MTA_Cone_Verde_Normal
+    second: {fileID: 2800000, guid: 1b238dabf0512814f940fd4aaca08c45, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mangual_2v_MTA_Cone_Verde_Roughness
+    second: {fileID: 2800000, guid: 36f3fde67b25c364c98c2babec0feb07, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mangual_2v_MTA_Cone_Vermelho_Emissive
+    second: {fileID: 2800000, guid: b44079faa1e479440906797cb47eb6eb, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mangual_2v_MTA_Cone_Vermelho_Height
+    second: {fileID: 2800000, guid: dfe45392f70bbd243888a94dc09ce8b0, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mangual_2v_MTA_Cone_Vermelho_Metallic
+    second: {fileID: 2800000, guid: ac12f142302171d46b20061e071d4223, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mangual_2v_MTA_Cone_Vermelho_Normal
+    second: {fileID: 2800000, guid: 20ac97719f2b5e44298058bb9155fe43, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mangual_2v_MTA_Cone_Vermelho_Roughness
+    second: {fileID: 2800000, guid: a090c35c5323a194cb61fbc9617c28e7, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mangual_2v_MTA_Corda_Emissive
+    second: {fileID: 2800000, guid: 9f8e3d613162e404dbb2a31b04f4a6e6, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mangual_2v_MTA_Corda_Height
+    second: {fileID: 2800000, guid: 4a7445e9c2ecd8f47bb5963ffbdcebdb, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mangual_2v_MTA_Corda_Metallic
+    second: {fileID: 2800000, guid: e150cd6f8ba23f447a7e88c788315661, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mangual_2v_MTA_Corda_Normal
+    second: {fileID: 2800000, guid: 692d4be52a15b734a9d032d291a863c5, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mangual_2v_MTA_Corda_Roughness
+    second: {fileID: 2800000, guid: 43317c9be67423244b24b74c5f4f7261, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mangual_2v_MTA_Mangual_Emissive
+    second: {fileID: 2800000, guid: 17cad7a95eb4fef40906ec57b78bbb75, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mangual_2v_MTA_Mangual_Height
+    second: {fileID: 2800000, guid: a2a2e0f136ea6be4a86155df6e36d538, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mangual_2v_MTA_Mangual_Metallic
+    second: {fileID: 2800000, guid: c58fbb6fcb43b7e4faf4d75b403386e9, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mangual_2v_MTA_Mangual_Normal
+    second: {fileID: 2800000, guid: ab8db4368d27275439a0e9b9971da263, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mangual_2v_MTA_Mangual_Ponta_Emissive
+    second: {fileID: 2800000, guid: 818d81ba5d5e21a49b9485a248aac6fc, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mangual_2v_MTA_Mangual_Ponta_Height
+    second: {fileID: 2800000, guid: d7168f2b499f0d0449e28da5348db1a7, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mangual_2v_MTA_Mangual_Ponta_Metallic
+    second: {fileID: 2800000, guid: 8a1f91a7ef394604982eef4f8d1a925b, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mangual_2v_MTA_Mangual_Ponta_Normal
+    second: {fileID: 2800000, guid: 67d3a9dc214446e469ff549c5864d9b8, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mangual_2v_MTA_Mangual_Ponta_Roughness
+    second: {fileID: 2800000, guid: 5e2d44df2dcb11a4c9ebfbfbf31193ea, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mangual_2v_MTA_Mangual_Roughness
+    second: {fileID: 2800000, guid: 80413db63627e22478603d3ff4f30502, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mangual_2v_MTA_Parte_Meio_Ponta_Emissive
+    second: {fileID: 2800000, guid: 00bfc6780376db44e81483e066d94a92, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mangual_2v_MTA_Parte_Meio_Ponta_Height
+    second: {fileID: 2800000, guid: 4a0cab4a64b2a43498b843ced3c2fdd1, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mangual_2v_MTA_Parte_Meio_Ponta_Metallic
+    second: {fileID: 2800000, guid: 855aabc75f036f241805ac9b57712347, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mangual_2v_MTA_Parte_Meio_Ponta_Normal
+    second: {fileID: 2800000, guid: 3e4bc624f4e29de45afd14376088dd09, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: mangual_2v_MTA_Parte_Meio_Ponta_Roughness
+    second: {fileID: 2800000, guid: 6dd39c62c27e98d45a53ba42ce85ada3, type: 3}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importPhysicalCameras: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    nodeNameCollisionStrategy: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    strictVertexDataChecks: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  importBlendShapeDeformPercent: 1
+  remapMaterialsIfMaterialImportModeIsNone: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
