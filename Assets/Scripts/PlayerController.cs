@@ -53,33 +53,39 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+       // Debug.Log("Update ejecutado");
+
         CameraRotation();
-        //al pulsar la E
         if (Input.GetKeyDown(KeyCode.E))
         {
             IntentarRecogerConRaycast();
         }
-
     }
     private void IntentarRecogerConRaycast()
     {
-        if (inventario == null)
-        {
-            Debug.LogError("No se encontró InventoryUI en la escena.");
-            return;
-        }
+        Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * rayDistance, Color.red, 1f);
+        Debug.Log("Intentando raycast...");
+        Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
+        Debug.DrawRay(ray.origin, ray.direction * rayDistance, Color.red, 1f);
 
-        // Lanzamos un rayo desde la cámara hacia adelante
-        Ray ray = new Ray(cameraTransform.position, cameraTransform.forward);
+        ray  = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, rayDistance, pickupLayer))
+        Debug.DrawRay(ray.origin, ray.direction * rayDistance, Color.red, 1f);
+
+        if (Physics.Raycast(ray, out hit, rayDistance))
         {
+            Debug.Log("Raycast tocó: " + hit.collider.name);
+
             if (hit.collider.CompareTag("Objeto1"))
             {
                 Debug.Log("Objeto1 recogido: " + hit.collider.name);
                 inventario.RecogerObjeto("Objeto1");
-                Destroy(hit.collider.gameObject); // Lo destruye del mundo
+                Destroy(hit.collider.gameObject);
+            }
+            else
+            {
+                Debug.Log("El objeto tocado no tiene la etiqueta Objeto1");
             }
         }
         else
