@@ -38,14 +38,54 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Rigidbody rb;
     //[SerializeField] Animator animator;
 
+    [Header("Inventario")]
+    [SerializeField] float rayDistance = 3f; // Distancia máxima para recoger
+    [SerializeField] LayerMask pickupLayer;  // Capa de objetos recogibles
+    private InventoryUI inventario;
+
+
     private void Start()
     {
+           inventario = FindObjectOfType<InventoryUI>();
+
         InitialSettings();
     }
 
     private void Update()
     {
         CameraRotation();
+        //al pulsar la E
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            IntentarRecogerConRaycast();
+        }
+
+    }
+    private void IntentarRecogerConRaycast()
+    {
+        if (inventario == null)
+        {
+            Debug.LogError("No se encontró InventoryUI en la escena.");
+            return;
+        }
+
+        // Lanzamos un rayo desde la cámara hacia adelante
+        Ray ray = new Ray(cameraTransform.position, cameraTransform.forward);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, rayDistance, pickupLayer))
+        {
+            if (hit.collider.CompareTag("Objeto1"))
+            {
+                Debug.Log("Objeto1 recogido: " + hit.collider.name);
+                inventario.RecogerObjeto("Objeto1");
+                Destroy(hit.collider.gameObject); // Lo destruye del mundo
+            }
+        }
+        else
+        {
+            Debug.Log("No hay objeto para recoger delante.");
+        }
     }
 
     private void FixedUpdate()
