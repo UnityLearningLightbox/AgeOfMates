@@ -36,7 +36,7 @@ public class TademiusController : MonoBehaviour
 
     [Header("Components")]
     [SerializeField] Rigidbody rb;
-    //[SerializeField] Animator animator;
+    [SerializeField] Animator animator;
 
     private void Start()
     {
@@ -75,10 +75,10 @@ public class TademiusController : MonoBehaviour
             rb.useGravity = true;
         }
 
-        //if(animator != null)
-        //{
-        //    animator = GetComponent<Animator>();
-        //}
+        if(animator != null)
+        {
+            animator = GetComponent<Animator>();
+        }
 
         defaultPlayerSpeed = playerSpeed;
 
@@ -92,6 +92,9 @@ public class TademiusController : MonoBehaviour
 
         bool isMoving = input.magnitude >= 0.1f;
         bool isRunning = isMoving && Input.GetKey(runKey);
+
+        animator.SetBool("isWalking", isMoving);
+        animator.SetBool("isRunning", isRunning);
 
         if (isMoving)
         {
