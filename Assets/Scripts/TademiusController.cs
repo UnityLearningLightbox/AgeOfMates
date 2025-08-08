@@ -137,8 +137,8 @@ public class TademiusController : MonoBehaviour
         bool isInTheAir = !isGrounded;
         bool isFalling = isInTheAir && rb.linearVelocity.y < -0.1f;
 
-        //animator.SetBool("isJumping", isInTheAir);
-        //animator.SetBool("isFalling", isFalling);
+        animator.SetBool("isJumping", isInTheAir);
+        animator.SetBool("isFalling", isFalling);
     }
 
     void GroundChecker()
