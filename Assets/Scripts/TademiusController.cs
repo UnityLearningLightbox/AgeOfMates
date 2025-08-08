@@ -36,7 +36,7 @@ public class TademiusController : MonoBehaviour
 
     [Header("Components")]
     [SerializeField] Rigidbody rb;
-    [SerializeField] Animator animator;
+    //[SerializeField] Animator animator;
 
     private void Start()
     {
