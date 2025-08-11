@@ -130402,6 +130402,63 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1894637327}
   m_Mesh: {fileID: 2316162739956942905, guid: 06751b812bbf3d5439868d5a17dda4b8, type: 3}
+--- !u!1001 &1895267601
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2345245894346698348, guid: f87783c48ee0e5947adf41b3099caeb7, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 194
+      objectReference: {fileID: 0}
+    - target: {fileID: 2345245894346698348, guid: f87783c48ee0e5947adf41b3099caeb7, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 2345245894346698348, guid: f87783c48ee0e5947adf41b3099caeb7, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1407
+      objectReference: {fileID: 0}
+    - target: {fileID: 2345245894346698348, guid: f87783c48ee0e5947adf41b3099caeb7, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.44585988
+      objectReference: {fileID: 0}
+    - target: {fileID: 2345245894346698348, guid: f87783c48ee0e5947adf41b3099caeb7, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.44585997
+      objectReference: {fileID: 0}
+    - target: {fileID: 2345245894346698348, guid: f87783c48ee0e5947adf41b3099caeb7, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.5488251
+      objectReference: {fileID: 0}
+    - target: {fileID: 2345245894346698348, guid: f87783c48ee0e5947adf41b3099caeb7, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.5488251
+      objectReference: {fileID: 0}
+    - target: {fileID: 2345245894346698348, guid: f87783c48ee0e5947adf41b3099caeb7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 2345245894346698348, guid: f87783c48ee0e5947adf41b3099caeb7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2345245894346698348, guid: f87783c48ee0e5947adf41b3099caeb7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 101.82
+      objectReference: {fileID: 0}
+    - target: {fileID: 7414789637158139493, guid: f87783c48ee0e5947adf41b3099caeb7, type: 3}
+      propertyPath: m_Name
+      value: GreatSphinx
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f87783c48ee0e5947adf41b3099caeb7, type: 3}
 --- !u!1001 &1929515727
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -193353,3 +193410,4 @@ SceneRoots:
   - {fileID: 275759464}
   - {fileID: 1114561714}
   - {fileID: 1775029962}
+  - {fileID: 1895267601}
