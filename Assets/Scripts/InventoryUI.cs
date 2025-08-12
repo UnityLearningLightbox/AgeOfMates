@@ -1,108 +1,88 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 public class InventoryUI : MonoBehaviour
 {
-    [Header("Imágenes en el Canvas (orden: Objeto1, Objeto2, Objeto3, Objeto4)")]
-    public Image[] imagenesObjetos;
+    [Header("Configuración de Objetos")]
+    public GameObject[] prefabsObjetos;   // Prefabs de los objetos para dropear
+    public string[] nombresObjetos;       // Tags de los objetos que se pueden recoger (deben coincidir con prefab y en escena)
 
-    [Header("Sprites para cada objeto")]
-    public Sprite[] spritesObjetos; // 0 = Objeto1, etc.
+    [Header("Raycast para recoger")]
+    public float distanciaRecoger = 3f;
+    public LayerMask capaObjetos;
 
-    [Header("Colores")]
-    public Color colorNormal = Color.white;
-    public Color colorSeleccionado = Color.yellow;
+    [Header("Drop")]
+    public Transform puntoDrop; // Empty delante del jugador donde aparecerán los objetos dropeados
 
-    private bool[] objetosConseguidos = new bool[4];
-    private int indiceSeleccionado = 0;
+    private int[] inventario;   // Cantidad de cada objeto en inventario
 
-    [Header("Tag del objeto cercano para probar la recogida")]
-    public string objetoCercanoTag = ""; // Pon aquí "Objeto1", "Objeto2", etc. para simular
+    private int indiceSeleccionado = 0; // Para elegir qué objeto dropear (puedes ampliar para cambiar con teclas)
 
     void Start()
     {
-        for (int i = 0; i < imagenesObjetos.Length; i++)
-            imagenesObjetos[i].gameObject.SetActive(false);
-
-        ActualizarSeleccionVisual();
+        inventario = new int[prefabsObjetos.Length];
+        if (puntoDrop == null)
+        {
+            Debug.LogWarning("No asignaste el punto de drop, se usará la posición del jugador.");
+            puntoDrop = transform;
+        }
     }
 
     void Update()
     {
-        // Cambiar selección con rueda del ratón
-        float rueda = Input.GetAxis("Mouse ScrollWheel");
-        if (rueda > 0f)
-            CambiarSeleccion(-1);
-        else if (rueda < 0f)
-            CambiarSeleccion(1);
-
-        // Detectar pulsación E para recoger objeto cercano (simulado)
+        // Recoger con E
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if (!string.IsNullOrEmpty(objetoCercanoTag))
+            Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
+            if (Physics.Raycast(ray, out RaycastHit hit, distanciaRecoger, capaObjetos))
             {
-                RecogerObjeto(objetoCercanoTag);
-                // Para test, borra el tag para no añadirlo varias veces
-                objetoCercanoTag = "";
+                for (int i = 0; i < nombresObjetos.Length; i++)
+                {
+                    if (hit.collider.CompareTag(nombresObjetos[i]))
+                    {
+                        inventario[i]++;
+                        Debug.Log($"Recogido {nombresObjetos[i]}. Total: {inventario[i]}");
+                        Destroy(hit.collider.gameObject);
+                        break;
+                    }
+                }
             }
             else
             {
-                Debug.Log("No hay objeto cercano para recoger");
+                Debug.Log("No hay objeto para recoger delante.");
             }
         }
-    }
 
-    private void CambiarSeleccion(int direccion)
-    {
-        int anterior = indiceSeleccionado;
-        do
+        // Cambiar objeto seleccionado con teclas 1,2,3,...
+        for (int i = 0; i < nombresObjetos.Length; i++)
         {
-            indiceSeleccionado = (indiceSeleccionado + direccion + objetosConseguidos.Length) % objetosConseguidos.Length;
+            if (Input.GetKeyDown(KeyCode.Alpha1 + i))
+            {
+                if (inventario[i] > 0)
+                {
+                    indiceSeleccionado = i;
+                    Debug.Log($"Objeto seleccionado para dropear: {nombresObjetos[i]}");
+                }
+                else
+                {
+                    Debug.Log($"No tienes {nombresObjetos[i]} en el inventario para seleccionar.");
+                }
+            }
         }
-        while (!objetosConseguidos[indiceSeleccionado] && indiceSeleccionado != anterior);
 
-        ActualizarSeleccionVisual();
-    }
-
-    private void ActualizarSeleccionVisual()
-    {
-        for (int i = 0; i < imagenesObjetos.Length; i++)
+        // Dropear objeto seleccionado con Q (puedes cambiar tecla)
+        if (Input.GetKeyDown(KeyCode.Q))
         {
-            if (imagenesObjetos[i].gameObject.activeSelf)
-                imagenesObjetos[i].color = (i == indiceSeleccionado) ? colorSeleccionado : colorNormal;
+            if (inventario[indiceSeleccionado] > 0)
+            {
+                Vector3 dropPos = puntoDrop.position + puntoDrop.forward * 2f;
+                Instantiate(prefabsObjetos[indiceSeleccionado], dropPos, Quaternion.identity);
+                inventario[indiceSeleccionado]--;
+                Debug.Log($"Dropeado {nombresObjetos[indiceSeleccionado]}. Quedan {inventario[indiceSeleccionado]}");
+            }
+            else
+            {
+                Debug.Log($"No tienes {nombresObjetos[indiceSeleccionado]} para dropear.");
+            }
         }
-    }
-
-    public void RecogerObjeto(string tag)
-    {
-        int index = -1;
-        if (tag == "Objeto1") index = 0;
-        else if (tag == "Objeto2") index = 1;
-        else if (tag == "Objeto3") index = 2;
-        else if (tag == "Objeto4") index = 3;
-
-        if (index != -1 && !objetosConseguidos[index])
-        {
-            objetosConseguidos[index] = true;
-            imagenesObjetos[index].sprite = spritesObjetos[index];
-            imagenesObjetos[index].gameObject.SetActive(true);
-            indiceSeleccionado = index;
-            ActualizarSeleccionVisual();
-
-            Debug.Log($"Objeto {tag} añadido al inventario");
-        }
-        else if (index != -1 && objetosConseguidos[index])
-        {
-            Debug.Log($"Objeto {tag} ya está en el inventario");
-        }
-        else
-        {
-            Debug.Log($"Tag {tag} inválido");
-        }
-    }
-
-    public int GetObjetoSeleccionado()
-    {
-        return indiceSeleccionado;
     }
 }
