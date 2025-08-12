@@ -80,7 +80,7 @@ public class PlayerController : MonoBehaviour
             if (hit.collider.CompareTag("Objeto1"))
             {
                 Debug.Log("Objeto1 recogido: " + hit.collider.name);
-                inventario.RecogerObjeto("Objeto1", hit.collider.gameObject);
+               // inventario.RecogerObjeto("Objeto1", hit.collider.gameObject);
             }
 
             else
