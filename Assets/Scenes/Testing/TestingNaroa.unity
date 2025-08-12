@@ -155,7 +155,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.35900003, y: 0.021000002}
   m_AnchorMax: {x: 0.53636146, y: 0.060603086}
-  m_AnchoredPosition: {x: 12, y: -1}
+  m_AnchoredPosition: {x: 16.300003, y: -1}
   m_SizeDelta: {x: 208, y: 25}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &38760525
@@ -718,9 +718,12 @@ MonoBehaviour:
   - {fileID: 506237595}
   spritesObjetos:
   - {fileID: 21300000, guid: f73f68fe6815f5548a6c2a61b9e49add, type: 3}
+  prefabsObjetos:
+  - {fileID: 1056451620}
   colorNormal: {r: 1, g: 1, b: 1, a: 1}
   colorSeleccionado: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   objetoCercanoTag: Objeto1
+  jugadorTransform: {fileID: 1177450585}
 --- !u!4 &707331528
 Transform:
   m_ObjectHideFlags: 0
@@ -897,7 +900,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.528, y: 0.021000002}
   m_AnchorMax: {x: 0.6963142, y: 0.060603086}
-  m_AnchoredPosition: {x: 9, y: -0}
+  m_AnchoredPosition: {x: 9, y: 0}
   m_SizeDelta: {x: 208, y: 25}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &744367292
@@ -1572,6 +1575,11 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.0696624, y: 0.052884497, z: 0.0095098205}
   m_Center: {x: -0.00013621079, y: 0.02711889, z: 0.0073873517}
+--- !u!4 &1177450585 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3372795370323886373, guid: 62f4371c099334745a28cb6c5be02966, type: 3}
+  m_PrefabInstance: {fileID: 491953469}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1403320822 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7114147781857921589, guid: 35a0769b71e7333478cb13f428a17d10, type: 3}
@@ -2024,7 +2032,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.25}
   m_AnchorMax: {x: 1, y: 0.75}
-  m_AnchoredPosition: {x: -5.000061, y: 0}
+  m_AnchoredPosition: {x: -5, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &2240343198324199423
