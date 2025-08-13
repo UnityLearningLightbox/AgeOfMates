@@ -9,7 +9,11 @@ public class SandStorm : MonoBehaviour
     [SerializeField] PlayerController playerController;
     //[SerializeField] TademiusController playerController;
     [SerializeField] Transform playerPosition;
-    //[SerializeField] Volume boxVolume;
+
+    [SerializeField] GameObject warningCanvas;
+
+    [SerializeField] GameObject sandStormToDestroy;
+    [SerializeField] bool minigameCompleted; // Este sera el booleano que se reciba del minijuego en cuestion cuando se complete. En vez de ser bool sera del script correspondiente
 
     private void Start()
     {
@@ -18,12 +22,19 @@ public class SandStorm : MonoBehaviour
 
     private void Update()
     {
-        
+        if(minigameCompleted == true && sandStormToDestroy != null)
+        {
+            Debug.Log("Minujuego completado");
+            sandStormToDestroy.SetActive(false);
+        }
     }
 
     void InitalSettings()
     {
-
+        if (warningCanvas != null)
+        {
+            warningCanvas.SetActive(false);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -32,19 +43,8 @@ public class SandStorm : MonoBehaviour
 
         if (other.CompareTag("Player"))
         {
-            playerController.playerSpeed /= 2;
-            playerController.runningSpeed /= 2;
-
-            //if (boxVolume != null)
-            //{
-            //    var vig = boxVolume.profile.TryGet(out Vignette vignette);
-            //    Debug.Log("aaaaaaaAAAAAAAa " + vig);
-
-            //    for (int i = 0; i < 100; i++)
-            //    {
-            //        vignette.intensity.value += (i / 100);
-            //    }
-            //}
+            //playerController.playerSpeed /= 2;
+            //playerController.runningSpeed /= 2;
 
             StartCoroutine(FaintingPlayer());
         }
@@ -54,19 +54,21 @@ public class SandStorm : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            playerController.playerSpeed *= 2;
-            playerController.runningSpeed *= 2;
+            //playerController.playerSpeed *= 2;
+            //playerController.runningSpeed *= 2;
         }
     }
 
     IEnumerator FaintingPlayer()
     {
-        Debug.Log("Antes de irse de la vida");
-        yield return new WaitForSeconds(2f);
+        warningCanvas.SetActive(true);
+        playerController.playerSpeed /= 2;
+        playerController.runningSpeed /= 2;
+
+        yield return new WaitForSeconds(10f);
+
         Debug.Log("El player se desmaya.");
-        Debug.Log("Animacion desmallandose?");
-
+        warningCanvas.SetActive(false);
         playerPosition.position = teleportPosition.position;
-
     }
 }
