@@ -5,8 +5,8 @@ public class TademiusController : MonoBehaviour
 {
     [Header("Player Movement")]
     float defaultPlayerSpeed;
-    [SerializeField] float playerSpeed;
-    [SerializeField] float runningSpeed;
+    public float playerSpeed;
+    public float runningSpeed;
     [SerializeField] float rotationSpeed;
     [SerializeField] KeyCode runKey = KeyCode.LeftShift;
 
