@@ -139,6 +139,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3372795370323886373}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5211016099443486171
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5164600192285199394}
+  - component: {fileID: 4467009355289470534}
+  m_Layer: 0
+  m_Name: PuntoDrop
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5164600192285199394
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5211016099443486171}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.82, z: 2.28}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3372795370323886373}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4467009355289470534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5211016099443486171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f4df6e06e548f14ebc4e0a9fa5e35bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabObjeto: {fileID: 0}
+  puntoDrop: {fileID: 5164600192285199394}
 --- !u!1 &6143076050767662545
 GameObject:
   m_ObjectHideFlags: 0
@@ -240,6 +286,7 @@ Transform:
   - {fileID: 5733226006835507541}
   - {fileID: 2538974789818206404}
   - {fileID: 5230047095315575457}
+  - {fileID: 5164600192285199394}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3834063968007921089
@@ -380,6 +427,10 @@ MonoBehaviour:
   lookAt: {fileID: 2538974789818206404}
   lookAtOffset: {x: 0, y: 0, z: 1.5}
   rb: {fileID: 4138813204523819016}
+  rayDistance: 50
+  pickupLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!143 &1413188740148368176
 CharacterController:
   m_ObjectHideFlags: 0
