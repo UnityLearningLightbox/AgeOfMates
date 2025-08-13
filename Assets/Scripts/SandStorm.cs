@@ -6,10 +6,10 @@ using UnityEngine.Rendering.HighDefinition;
 public class SandStorm : MonoBehaviour
 {
     [SerializeField] Transform teleportPosition; // El prefab SandStorm tiene una position para teletransportar al player
-    //[SerializeField] PlayerController playerController;
-    [SerializeField] TademiusController playerController;
+    [SerializeField] PlayerController playerController;
+    //[SerializeField] TademiusController playerController;
     [SerializeField] Transform playerPosition;
-    [SerializeField] Volume boxVolume;
+    //[SerializeField] Volume boxVolume;
 
     private void Start()
     {
