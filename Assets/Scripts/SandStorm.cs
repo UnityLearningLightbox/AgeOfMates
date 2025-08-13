@@ -11,9 +11,10 @@ public class SandStorm : MonoBehaviour
     [SerializeField] Transform playerPosition;
 
     [SerializeField] GameObject warningCanvas;
+    [SerializeField] Animator warningCanvasAnimation;
 
     [SerializeField] GameObject sandStormToDestroy;
-    [SerializeField] bool minigameCompleted; // Este sera el booleano que se reciba del minijuego en cuestion cuando se complete. En vez de ser bool sera del script correspondiente
+    public bool minigameCompleted; // Este sera el booleano que se reciba del minijuego en cuestion cuando se complete. En vez de ser bool sera del script correspondiente
 
     private void Start()
     {
@@ -43,9 +44,6 @@ public class SandStorm : MonoBehaviour
 
         if (other.CompareTag("Player"))
         {
-            //playerController.playerSpeed /= 2;
-            //playerController.runningSpeed /= 2;
-
             StartCoroutine(FaintingPlayer());
         }
     }
@@ -54,20 +52,23 @@ public class SandStorm : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            //playerController.playerSpeed *= 2;
-            //playerController.runningSpeed *= 2;
+            playerController.playerSpeed *= 2;
+            playerController.runningSpeed *= 2;
         }
     }
 
     IEnumerator FaintingPlayer()
     {
-        warningCanvas.SetActive(true);
         playerController.playerSpeed /= 2;
         playerController.runningSpeed /= 2;
 
-        yield return new WaitForSeconds(10f);
+        warningCanvas.SetActive(true);
+        yield return new WaitForSeconds(8f);
+        warningCanvasAnimation.SetBool("isFading", true);
 
+        yield return new WaitForSeconds(3f);
         Debug.Log("El player se desmaya.");
+
         warningCanvas.SetActive(false);
         playerPosition.position = teleportPosition.position;
     }
