@@ -14,6 +14,9 @@ public class InventoryUI : MonoBehaviour
     public Image[] imagenesObjetosUI;   // Imagenes fijas para cada objeto
     public GameObject selectorUI;       // Un objeto UI (ej: un marco) que indica el seleccionado
 
+    [Header("Referencia directa al Objeto_1 del Canvas")]
+    public GameObject objeto1UI; // Asignar en el inspector el objeto Objeto_1 del Canvas
+
     private int[] inventario;
     private int indiceSeleccionado = 0;
 
@@ -46,13 +49,30 @@ public class InventoryUI : MonoBehaviour
         Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
         if (Physics.Raycast(ray, out RaycastHit hit, 3f))
         {
+            // Si toca el objeto con etiqueta "Objeto1"
+            if (hit.collider.CompareTag("Objeto1"))
+            {
+                // Activar el Objeto_1 del Canvas
+                if (objeto1UI != null)
+                {
+                    objeto1UI.SetActive(true);
+                }
+                else
+                {
+                    Debug.LogWarning("Referencia a Objeto_1 del Canvas no asignada");
+                }
+
+                // Borrar el objeto en el mundo
+                Destroy(hit.collider.gameObject);
+            }
+
+            // Lógica normal para inventario (si quieres seguir usando el array)
             for (int i = 0; i < nombresObjetos.Length; i++)
             {
                 if (hit.collider.CompareTag(nombresObjetos[i]))
                 {
                     inventario[i]++;
                     indiceSeleccionado = i;
-                    Destroy(hit.collider.gameObject);
                     ActualizarUI();
                     return;
                 }
@@ -127,8 +147,6 @@ public class InventoryUI : MonoBehaviour
     {
         for (int i = 0; i < imagenesObjetosUI.Length; i++)
         {
-            imagenesObjetosUI[i].gameObject.SetActive(inventario[i] > 0);
-            // Cambiar color para el seleccionado, ejemplo:
             if (i == indiceSeleccionado && inventario[i] > 0)
             {
                 imagenesObjetosUI[i].color = Color.yellow;
