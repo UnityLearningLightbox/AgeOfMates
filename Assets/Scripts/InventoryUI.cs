@@ -1,33 +1,28 @@
 using UnityEngine;
-using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class InventoryUI : MonoBehaviour
 {
-    [Header("Configuración de Objetos")]
-    public GameObject[] prefabsObjetos;
-    public string[] nombresObjetos;
+    [System.Serializable]
+    public class ItemData
+    {
+        public string tagObjeto;      // Ejemplo: "Objeto1"
+        public GameObject iconoUI;    // Icono en la UI
+        public GameObject prefab;     // Prefab para soltar
+        public bool tiene;            // Si el jugador lo posee
+    }
+
+    [Header("Objetos del Inventario")]
+    public List<ItemData> objetos = new List<ItemData>();
 
     [Header("Drop")]
     public Transform puntoDrop;
 
-    [Header("UI")]
-    public Image[] imagenesObjetosUI;   // Imagenes fijas para cada objeto
-    public GameObject selectorUI;       // Un objeto UI (ej: un marco) que indica el seleccionado
+    [Header("Raycast")]
+    public float distanciaRecogida = 3f;
+    public LayerMask capaObjetos;
 
-    private int[] inventario;
-    private int indiceSeleccionado = 0;
-
-    void Start()
-    {
-        inventario = new int[prefabsObjetos.Length];
-
-        if (puntoDrop == null)
-        {
-            puntoDrop = transform;
-        }
-
-        ActualizarUI();
-    }
+    private int indiceSeleccionado = 0; // Para elegir qué dropear
 
     void Update()
     {
@@ -35,112 +30,80 @@ public class InventoryUI : MonoBehaviour
             IntentarRecoger();
 
         if (Input.GetKeyDown(KeyCode.Q))
-            DropearObjeto();
+            DropearObjetoSeleccionado();
 
-        CambiarObjetoConScroll();
-        CambiarObjetoConTeclas();
+        // Cambiar selección con la rueda del ratón
+        float scroll = Input.GetAxis("Mouse ScrollWheel");
+        if (scroll != 0)
+        {
+            indiceSeleccionado = (indiceSeleccionado + (scroll > 0 ? 1 : -1) + objetos.Count) % objetos.Count;
+            Debug.Log("Objeto seleccionado: " + objetos[indiceSeleccionado].tagObjeto);
+        }
     }
 
     void IntentarRecoger()
     {
-        Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
-        if (Physics.Raycast(ray, out RaycastHit hit, 3f))
+        Camera cam = Camera.main;
+        Ray ray = cam.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
+
+        if (Physics.Raycast(ray, out RaycastHit hit, distanciaRecogida, capaObjetos))
         {
-            for (int i = 0; i < nombresObjetos.Length; i++)
+            foreach (var item in objetos)
             {
-                if (hit.collider.CompareTag(nombresObjetos[i]))
+                if (hit.collider.CompareTag(item.tagObjeto) && !item.tiene)
                 {
-                    inventario[i]++;
-                    indiceSeleccionado = i;
+                    item.tiene = true;
+                    if (item.iconoUI != null) item.iconoUI.SetActive(true);
                     Destroy(hit.collider.gameObject);
-                    ActualizarUI();
+                    Debug.Log("Recogido: " + item.tagObjeto);
                     return;
                 }
             }
         }
     }
 
-    void DropearObjeto()
+    void DropearObjetoSeleccionado()
     {
-        if (inventario[indiceSeleccionado] > 0)
+        var item = objetos[indiceSeleccionado];
+        if (item.tiene && item.prefab != null && puntoDrop != null)
         {
             Vector3 dropPos = puntoDrop.position + puntoDrop.forward * 1.5f;
             dropPos.y += 0.5f;
 
-            GameObject obj = Instantiate(prefabsObjetos[indiceSeleccionado], dropPos, Quaternion.identity);
-            if (obj.GetComponent<Rigidbody>() == null)
-                obj.AddComponent<Rigidbody>();
+            GameObject nuevoObjeto = Instantiate(item.prefab, dropPos, Quaternion.identity);
 
-            inventario[indiceSeleccionado]--;
-            ActualizarUI();
+            //  Asignar la tag correcta
+            nuevoObjeto.tag = item.tagObjeto;
+
+            if (nuevoObjeto.GetComponent<Rigidbody>() == null)
+                nuevoObjeto.AddComponent<Rigidbody>();
+
+            if (item.iconoUI != null) item.iconoUI.SetActive(false);
+            item.tiene = false;
+            Debug.Log("Dropped: " + item.tagObjeto);
         }
     }
 
-    void CambiarObjetoConScroll()
-    {
-        float scroll = Input.GetAxis("Mouse ScrollWheel");
-        if (scroll > 0f) SiguienteObjeto();
-        else if (scroll < 0f) ObjetoAnterior();
-    }
 
-    void CambiarObjetoConTeclas()
+    public bool TieneObjeto(string tagObjeto)
     {
-        for (int i = 0; i < nombresObjetos.Length; i++)
+        foreach (var item in objetos)
         {
-            if (Input.GetKeyDown(KeyCode.Alpha1 + i) && inventario[i] > 0)
-            {
-                indiceSeleccionado = i;
-                ActualizarUI();
-            }
+            if (item.tagObjeto == tagObjeto && item.tiene)
+                return true;
         }
+        return false;
     }
 
-    void SiguienteObjeto()
+    public void EliminarObjeto(string tagObjeto)
     {
-        int startIndex = indiceSeleccionado;
-        do
+        foreach (var item in objetos)
         {
-            indiceSeleccionado = (indiceSeleccionado + 1) % inventario.Length;
-            if (inventario[indiceSeleccionado] > 0)
+            if (item.tagObjeto == tagObjeto && item.tiene)
             {
-                ActualizarUI();
+                item.tiene = false;
+                if (item.iconoUI != null) item.iconoUI.SetActive(false);
                 return;
-            }
-        } while (indiceSeleccionado != startIndex);
-    }
-
-    void ObjetoAnterior()
-    {
-        int startIndex = indiceSeleccionado;
-        do
-        {
-            indiceSeleccionado = (indiceSeleccionado - 1 + inventario.Length) % inventario.Length;
-            if (inventario[indiceSeleccionado] > 0)
-            {
-                ActualizarUI();
-                return;
-            }
-        } while (indiceSeleccionado != startIndex);
-    }
-
-    void ActualizarUI()
-    {
-        for (int i = 0; i < imagenesObjetosUI.Length; i++)
-        {
-            imagenesObjetosUI[i].gameObject.SetActive(inventario[i] > 0);
-            // Cambiar color para el seleccionado, ejemplo:
-            if (i == indiceSeleccionado && inventario[i] > 0)
-            {
-                imagenesObjetosUI[i].color = Color.yellow;
-                if (selectorUI != null)
-                {
-                    selectorUI.transform.position = imagenesObjetosUI[i].transform.position;
-                    selectorUI.SetActive(true);
-                }
-            }
-            else
-            {
-                imagenesObjetosUI[i].color = Color.white;
             }
         }
     }
