@@ -1,20 +1,18 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Rendering;
-using UnityEngine.Rendering.HighDefinition;
 
 public class SandStorm : MonoBehaviour
 {
     [SerializeField] Transform teleportPosition; // El prefab SandStorm tiene una position para teletransportar al player
-    [SerializeField] PlayerController playerController;
-    //[SerializeField] TademiusController playerController;
+    //[SerializeField] PlayerController playerController;
+    [SerializeField] TademiusController playerController;
     [SerializeField] Transform playerPosition;
 
     [SerializeField] GameObject warningCanvas;
     [SerializeField] Animator warningCanvasAnimation;
 
     [SerializeField] GameObject sandStormToDestroy;
-    public bool minigameCompleted; // Este sera el booleano que se reciba del minijuego en cuestion cuando se complete. En vez de ser bool sera del script correspondiente
+    public bool minigameCompleted; // Este sera el booleano que se mandara al minijuego en cuestion cuando se complete.
 
     private void Start()
     {
