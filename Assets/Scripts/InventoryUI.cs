@@ -1,165 +1,76 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 public class InventoryUI : MonoBehaviour
 {
-    [Header("Configuración de Objetos")]
-    public GameObject[] prefabsObjetos;
-    public string[] nombresObjetos;
+    [Header("UI del Inventario")]
+    public GameObject objeto1UI;   // Icono en la UI
+    public GameObject prefabObjeto1; // Prefab que se va a soltar
+    public Transform puntoDrop;    // Empty delante del jugador
 
-    [Header("Drop")]
-    public Transform puntoDrop;
+    [Header("Raycast")]
+    public float distanciaRecogida = 3f;
+    public LayerMask capaObjetos;
 
-    [Header("UI")]
-    public Image[] imagenesObjetosUI;   // Imagenes fijas para cada objeto
-    public GameObject selectorUI;       // Un objeto UI (ej: un marco) que indica el seleccionado
-
-    [Header("Referencia directa al Objeto_1 del Canvas")]
-    public GameObject objeto1UI; // Asignar en el inspector el objeto Objeto_1 del Canvas
-
-    private int[] inventario;
-    private int indiceSeleccionado = 0;
-
-    void Start()
-    {
-        inventario = new int[prefabsObjetos.Length];
-
-        if (puntoDrop == null)
-        {
-            puntoDrop = transform;
-        }
-
-        ActualizarUI();
-    }
+    private bool tieneObjeto1 = false; // Flag para saber si lo tenemos
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.E))
+        {
             IntentarRecoger();
+        }
 
         if (Input.GetKeyDown(KeyCode.Q))
+        {
             DropearObjeto();
-
-        CambiarObjetoConScroll();
-        CambiarObjetoConTeclas();
+        }
     }
 
     void IntentarRecoger()
     {
-        Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
-        if (Physics.Raycast(ray, out RaycastHit hit, 3f))
+        Camera cam = Camera.main;
+        Ray ray = cam.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
+
+        if (Physics.Raycast(ray, out RaycastHit hit, distanciaRecogida, capaObjetos))
         {
-            // Si toca el objeto con etiqueta "Objeto1"
-            if (hit.collider.CompareTag("Objeto1"))
+            if (hit.collider.CompareTag("Objeto1") && !tieneObjeto1)
             {
-                // Activar el Objeto_1 del Canvas
+                // Activar icono UI
                 if (objeto1UI != null)
-                {
                     objeto1UI.SetActive(true);
-                }
-                else
-                {
-                    Debug.LogWarning("Referencia a Objeto_1 del Canvas no asignada");
-                }
 
-                // Borrar el objeto en el mundo
+                // Guardar que lo tenemos
+                tieneObjeto1 = true;
+
+                // Quitar el objeto de la escena
                 Destroy(hit.collider.gameObject);
-            }
-
-            // Lógica normal para inventario (si quieres seguir usando el array)
-            for (int i = 0; i < nombresObjetos.Length; i++)
-            {
-                if (hit.collider.CompareTag(nombresObjetos[i]))
-                {
-                    inventario[i]++;
-                    indiceSeleccionado = i;
-                    ActualizarUI();
-                    return;
-                }
             }
         }
     }
 
     void DropearObjeto()
     {
-        if (inventario[indiceSeleccionado] > 0)
+        if (tieneObjeto1 && prefabObjeto1 != null && puntoDrop != null)
         {
+            // Calcular posición delante del puntoDrop
             Vector3 dropPos = puntoDrop.position + puntoDrop.forward * 1.5f;
             dropPos.y += 0.5f;
 
-            GameObject obj = Instantiate(prefabsObjetos[indiceSeleccionado], dropPos, Quaternion.identity);
-            if (obj.GetComponent<Rigidbody>() == null)
-                obj.AddComponent<Rigidbody>();
+            // Instanciar objeto
+            GameObject nuevoObjeto = Instantiate(prefabObjeto1, dropPos, Quaternion.identity);
 
-            inventario[indiceSeleccionado]--;
-            ActualizarUI();
-        }
-    }
-
-    void CambiarObjetoConScroll()
-    {
-        float scroll = Input.GetAxis("Mouse ScrollWheel");
-        if (scroll > 0f) SiguienteObjeto();
-        else if (scroll < 0f) ObjetoAnterior();
-    }
-
-    void CambiarObjetoConTeclas()
-    {
-        for (int i = 0; i < nombresObjetos.Length; i++)
-        {
-            if (Input.GetKeyDown(KeyCode.Alpha1 + i) && inventario[i] > 0)
+            // Añadir Rigidbody si no lo tiene
+            if (nuevoObjeto.GetComponent<Rigidbody>() == null)
             {
-                indiceSeleccionado = i;
-                ActualizarUI();
+                nuevoObjeto.AddComponent<Rigidbody>();
             }
-        }
-    }
 
-    void SiguienteObjeto()
-    {
-        int startIndex = indiceSeleccionado;
-        do
-        {
-            indiceSeleccionado = (indiceSeleccionado + 1) % inventario.Length;
-            if (inventario[indiceSeleccionado] > 0)
-            {
-                ActualizarUI();
-                return;
-            }
-        } while (indiceSeleccionado != startIndex);
-    }
+            // Desactivar icono UI
+            if (objeto1UI != null)
+                objeto1UI.SetActive(false);
 
-    void ObjetoAnterior()
-    {
-        int startIndex = indiceSeleccionado;
-        do
-        {
-            indiceSeleccionado = (indiceSeleccionado - 1 + inventario.Length) % inventario.Length;
-            if (inventario[indiceSeleccionado] > 0)
-            {
-                ActualizarUI();
-                return;
-            }
-        } while (indiceSeleccionado != startIndex);
-    }
-
-    void ActualizarUI()
-    {
-        for (int i = 0; i < imagenesObjetosUI.Length; i++)
-        {
-            if (i == indiceSeleccionado && inventario[i] > 0)
-            {
-                imagenesObjetosUI[i].color = Color.yellow;
-                if (selectorUI != null)
-                {
-                    selectorUI.transform.position = imagenesObjetosUI[i].transform.position;
-                    selectorUI.SetActive(true);
-                }
-            }
-            else
-            {
-                imagenesObjetosUI[i].color = Color.white;
-            }
+            // Marcar que ya no lo tenemos
+            tieneObjeto1 = false;
         }
     }
 }
