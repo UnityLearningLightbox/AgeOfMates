@@ -107,6 +107,7 @@ public class TademiusController : MonoBehaviour
 
             Quaternion targetRotation = Quaternion.LookRotation(moveDir);
             rb.rotation = Quaternion.Slerp(rb.rotation, targetRotation, Time.fixedDeltaTime * rotationSpeed);
+            transform.rotation = cameraRotation;
         }
 
         if (isRunning)
