@@ -16,7 +16,11 @@ public class LabyrinthCompleted : MonoBehaviour
             Debug.Log("Minijuego completado");
             startCollider.startingTimer = false;
             minigameCompleted = true;
-            storm.minigameCompleted = minigameCompleted;
+
+            if(storm != null)
+            {
+                storm.minigameCompleted = minigameCompleted;
+            }
 
             StartCoroutine(TurnOffCanvas());
         }
