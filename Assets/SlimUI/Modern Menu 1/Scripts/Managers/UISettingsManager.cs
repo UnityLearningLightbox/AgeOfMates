@@ -180,31 +180,22 @@ namespace SlimUI.ModernMenu{
 
 			// check texture quality
 			if(PlayerPrefs.GetInt("Textures") == 0){
-<<<<<<< HEAD
 				QualitySettings.globalTextureMipmapLimit = 2;
-=======
-				QualitySettings.masterTextureLimit = 2;
->>>>>>> 86238a39ef6fb06ab93f7e57015954aa82a3db02
+				QualitySettings.globalTextureMipmapLimit = 2;
 				texturelowtextLINE.gameObject.SetActive(true);
 				texturemedtextLINE.gameObject.SetActive(false);
 				texturehightextLINE.gameObject.SetActive(false);
 			}
 			else if(PlayerPrefs.GetInt("Textures") == 1){
-<<<<<<< HEAD
 				QualitySettings.globalTextureMipmapLimit = 1;
-=======
-				QualitySettings.masterTextureLimit = 1;
->>>>>>> 86238a39ef6fb06ab93f7e57015954aa82a3db02
+				QualitySettings.globalTextureMipmapLimit = 1;
 				texturelowtextLINE.gameObject.SetActive(false);
 				texturemedtextLINE.gameObject.SetActive(true);
 				texturehightextLINE.gameObject.SetActive(false);
 			}
 			else if(PlayerPrefs.GetInt("Textures") == 2){
-<<<<<<< HEAD
 				QualitySettings.globalTextureMipmapLimit = 0;
-=======
-				QualitySettings.masterTextureLimit = 0;
->>>>>>> 86238a39ef6fb06ab93f7e57015954aa82a3db02
+				QualitySettings.globalTextureMipmapLimit = 0;
 				texturelowtextLINE.gameObject.SetActive(false);
 				texturemedtextLINE.gameObject.SetActive(false);
 				texturehightextLINE.gameObject.SetActive(true);
@@ -419,11 +410,8 @@ namespace SlimUI.ModernMenu{
 
 		public void TexturesLow (){
 			PlayerPrefs.SetInt("Textures",0);
-<<<<<<< HEAD
 			QualitySettings.globalTextureMipmapLimit = 2;
-=======
-			QualitySettings.masterTextureLimit = 2;
->>>>>>> 86238a39ef6fb06ab93f7e57015954aa82a3db02
+			QualitySettings.globalTextureMipmapLimit = 2;
 			texturelowtextLINE.gameObject.SetActive(true);
 			texturemedtextLINE.gameObject.SetActive(false);
 			texturehightextLINE.gameObject.SetActive(false);
@@ -431,11 +419,8 @@ namespace SlimUI.ModernMenu{
 
 		public void TexturesMed (){
 			PlayerPrefs.SetInt("Textures",1);
-<<<<<<< HEAD
 			QualitySettings.globalTextureMipmapLimit = 1;
-=======
-			QualitySettings.masterTextureLimit = 1;
->>>>>>> 86238a39ef6fb06ab93f7e57015954aa82a3db02
+			QualitySettings.globalTextureMipmapLimit = 1;
 			texturelowtextLINE.gameObject.SetActive(false);
 			texturemedtextLINE.gameObject.SetActive(true);
 			texturehightextLINE.gameObject.SetActive(false);
@@ -443,11 +428,8 @@ namespace SlimUI.ModernMenu{
 
 		public void TexturesHigh (){
 			PlayerPrefs.SetInt("Textures",2);
-<<<<<<< HEAD
 			QualitySettings.globalTextureMipmapLimit = 0;
-=======
-			QualitySettings.masterTextureLimit = 0;
->>>>>>> 86238a39ef6fb06ab93f7e57015954aa82a3db02
+			QualitySettings.globalTextureMipmapLimit = 0;
 			texturelowtextLINE.gameObject.SetActive(false);
 			texturemedtextLINE.gameObject.SetActive(false);
 			texturehightextLINE.gameObject.SetActive(true);
