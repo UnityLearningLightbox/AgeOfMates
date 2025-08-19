@@ -94,7 +94,11 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
+<<<<<<< HEAD
   m_LightingSettings: {fileID: 4890085278179872738, guid: 04053104e0448574689a11bcd4d82d03, type: 2}
+=======
+  m_LightingSettings: {fileID: 4890085278179872738, guid: 8d8991b7fd86e804f9f4fd052dd8306e, type: 2}
+>>>>>>> 86238a39ef6fb06ab93f7e57015954aa82a3db02
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -168,7 +172,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   volumeTrigger: {fileID: 7009261}
   volumeLayer:
+<<<<<<< HEAD
     serializedVersion: 2
+=======
+>>>>>>> 86238a39ef6fb06ab93f7e57015954aa82a3db02
     m_Bits: 32
   stopNaNPropagation: 1
   finalBlitToCameraTarget: 0
