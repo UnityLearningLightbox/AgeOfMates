@@ -2,14 +2,22 @@ using UnityEngine;
 
 public class SetActiveOnTrigger : MonoBehaviour
 {
-    [SerializeField] GameObject gameObjectToDesactive;
+    [SerializeField] GameObject desactiveDialogueCanvas;
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.CompareTag("Player"))
         {
-            gameObjectToDesactive.SetActive(false);
+            desactiveDialogueCanvas.SetActive(true);
             
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if(other.CompareTag("Player"))
+        {
+            desactiveDialogueCanvas.SetActive(false);
         }
     }
 }

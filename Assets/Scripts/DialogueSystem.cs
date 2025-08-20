@@ -1,33 +1,30 @@
 using System.Collections;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class DialogueSystem : MonoBehaviour
 {
     [Header("UI elements")]
-    [SerializeField] GameObject dialoguePanel;
-    [SerializeField] TMP_Text dialogueText;
+    [SerializeField] private GameObject dialoguePanel;    // Panel de diálogos (Canvas)
+    [SerializeField] private TMP_Text dialogueText;       // Texto del diálogo
+    [SerializeField] private GameObject promptPanel;      // Panel "Pulsa E para hablar"
 
-    [Header(".txt archives")]
-    [SerializeField] TextAsset dialogueFile;
+    [Header(".txt archive")]
+    [SerializeField] private TextAsset dialogueFile;      // Archivo .txt opcional
 
     [Header("Dialogues")]
-    [SerializeField] string[] dialogueLines;
-    [SerializeField] float typingSpeed;
+    [SerializeField] private string[] dialogueLines;
+    [SerializeField] private float typingSpeed = 0.05f;
 
-    //[Header("Typing Sounds")]
-    //[SerializeField] AudioClip typingSound;
-    //[SerializeField] AudioSource typingAudioSource;
-    //[SerializeField] float randomA;
-    //[SerializeField] float randomB;
+    [Header("Player Control")]
+    [SerializeField] private MonoBehaviour playerControllerScript;
+    // Script de movimiento del Player (ej: FirstPersonController)
 
     private int currentIndex = 0;
     private bool isPlayerInRange = false;
     private bool isDialogueActive = false;
     private bool isTyping = false;
     private Coroutine typingCoroutine;
-
 
     private void Start()
     {
@@ -40,28 +37,30 @@ public class DialogueSystem : MonoBehaviour
         DialogueManager();
     }
 
-    private void OnTriggerEnter2D(Collider2D other) //Al entrar al collider (trigger en este caso)
+    private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
             isPlayerInRange = true;
-            dialoguePanel.SetActive(true);
+            promptPanel.SetActive(true); // Muestra "Pulsa E para hablar"
         }
     }
 
-    private void OnTriggerExit2D(Collider2D other) //al salir del collider (trigger en este caso)
+    private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))
         {
             isPlayerInRange = false;
-            dialoguePanel.SetActive(false);
+            promptPanel.SetActive(false); // Oculta el prompt
+            EndDialogue();
         }
     }
 
     void InitialSettings()
     {
-        dialogueText.text = ""; //Restaura el texto a "vacio", lo limpia.
+        dialogueText.text = "";
         dialoguePanel.SetActive(false);
+        if (promptPanel != null) promptPanel.SetActive(false);
     }
 
     void DialogueManager()
@@ -89,13 +88,13 @@ public class DialogueSystem : MonoBehaviour
 
         isDialogueActive = true;
         dialoguePanel.SetActive(true);
+        promptPanel.SetActive(false);
 
         currentIndex = 0;
-        dialogueText.text = dialogueLines[currentIndex];
+        StartTypingText(dialogueLines[currentIndex]);
 
-        //Desactivar controlador personaje para evitar que se mueva durante el dialogo
-
-        Time.timeScale = 0f;
+        if (playerControllerScript != null)
+            playerControllerScript.enabled = false; // Bloquea movimiento del jugador
     }
 
     void DisplayNextLine()
@@ -103,7 +102,6 @@ public class DialogueSystem : MonoBehaviour
         currentIndex++;
         if (currentIndex < dialogueLines.Length)
         {
-            //dialogueText.text = dialogueLines[currentIndex];
             StartTypingText(dialogueLines[currentIndex]);
         }
         else
@@ -111,18 +109,18 @@ public class DialogueSystem : MonoBehaviour
             EndDialogue();
         }
     }
+
     void EndDialogue()
     {
         dialoguePanel.SetActive(false);
         isDialogueActive = false;
 
-        Time.timeScale = 1f;
+        if (playerControllerScript != null)
+            playerControllerScript.enabled = true; // Reactiva movimiento
     }
 
     void LoadDialogueFromArchive()
     {
-        //TextAsset textFile = Resources.Load<TextAsset>(txtFile);
-
         if (dialogueFile != null)
         {
             dialogueLines = dialogueFile.text.Split("\n");
@@ -131,12 +129,10 @@ public class DialogueSystem : MonoBehaviour
                 dialogueLines[i] = dialogueLines[i].Trim();
             }
         }
-        else
+        else if (dialogueLines == null || dialogueLines.Length == 0)
         {
             dialogueLines = new string[] { "No hay archivo txt" };
         }
-
-        dialoguePanel.SetActive(false);
     }
 
     void StartTypingText(string line)
@@ -146,33 +142,21 @@ public class DialogueSystem : MonoBehaviour
             StopCoroutine(typingCoroutine);
         }
 
-        typingCoroutine = StartCoroutine(LineCourutine(line));
-
+        typingCoroutine = StartCoroutine(LineCoroutine(line));
     }
 
-    IEnumerator LineCourutine(string line)
+    IEnumerator LineCoroutine(string line)
     {
         isTyping = true;
-        dialogueText.text = "";//Restaura el texto a "vacio", lo limpia de caracteres
+        dialogueText.text = "";
 
         foreach (char letter in line.ToCharArray())
         {
             dialogueText.text += letter;
-
-            /*if (typingSound != null && typingAudioSource != null)
-            {
-                typingAudioSource.pitch = Random.Range(randomA, randomB + 0.1f);
-                typingAudioSource.PlayOneShot(typingSound);
-            }*/
-
-            yield return new WaitForSecondsRealtime(typingSpeed);
-            //yield return new WaitForSeconds(typingSpeed);
+            yield return new WaitForSeconds(typingSpeed);
         }
 
-
         isTyping = false;
-
-       // typingAudioSource.pitch = 1f;
     }
 
     void CompleteCurrentLine()
@@ -185,3 +169,4 @@ public class DialogueSystem : MonoBehaviour
         isTyping = false;
     }
 }
+
