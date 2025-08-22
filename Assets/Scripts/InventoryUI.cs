@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections.Generic;
 
 public class InventoryUI : MonoBehaviour
@@ -6,10 +7,10 @@ public class InventoryUI : MonoBehaviour
     [System.Serializable]
     public class ItemData
     {
-        public string tagObjeto;      // Ejemplo: "Objeto1"
-        public GameObject iconoUI;    // Icono en la UI
-        public GameObject prefab;     // Prefab para soltar
-        public bool tiene;            // Si el jugador lo posee
+        public string tagObjeto;
+        public GameObject iconoUI;
+        public GameObject prefab;
+        public bool tiene;
     }
 
     [Header("Objetos del Inventario")]
@@ -22,17 +23,62 @@ public class InventoryUI : MonoBehaviour
     public float distanciaRecogida = 3f;
     public LayerMask capaObjetos;
 
-    private int indiceSeleccionado = 0; // Para elegir qué dropear
+    [Header("UI")]
+    public Slider recogerSlider;
+    public float tiempoParaRecoger = 3f;
+
+    private int indiceSeleccionado = 0;
+    private RaycastHit hitActual;
+    private bool mirandoObjeto = false;
+    private float progresoRecogida = 0f;
+
+    void Start()
+    {
+        if (recogerSlider != null)
+        {
+            //recogerSlider.gameObject.SetActive(false);
+            recogerSlider.minValue = 0f;
+            recogerSlider.maxValue = 1f;
+            recogerSlider.value = 0f;
+        }
+    }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
-            IntentarRecoger();
+        DetectarObjetoFrente();
+
+        if (mirandoObjeto && hitActual.collider != null)
+        {
+            if (Input.GetKey(KeyCode.E))
+            {
+                if (!recogerSlider.gameObject.activeSelf)
+                    recogerSlider.gameObject.SetActive(true);
+
+                progresoRecogida += Time.deltaTime / tiempoParaRecoger;
+                recogerSlider.value = progresoRecogida;
+
+                Debug.Log($"Progreso: {progresoRecogida}");
+
+                if (progresoRecogida >= 1f)
+                {
+                    Debug.Log("Recogida completada. Ejecutando RecogerObjeto()");
+                    RecogerObjeto(hitActual);
+                    ReiniciarSlider();
+                }
+            }
+            else
+            {
+                ReiniciarSlider();
+            }
+        }
+        else
+        {
+            ReiniciarSlider();
+        }
 
         if (Input.GetKeyDown(KeyCode.Q))
             DropearObjetoSeleccionado();
 
-        // Cambiar selección con la rueda del ratón
         float scroll = Input.GetAxis("Mouse ScrollWheel");
         if (scroll != 0)
         {
@@ -41,23 +87,33 @@ public class InventoryUI : MonoBehaviour
         }
     }
 
-    void IntentarRecoger()
+    void DetectarObjetoFrente()
     {
         Camera cam = Camera.main;
         Ray ray = cam.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
 
-        if (Physics.Raycast(ray, out RaycastHit hit, distanciaRecogida, capaObjetos))
+        if (Physics.Raycast(ray, out hitActual, distanciaRecogida, capaObjetos))
         {
-            foreach (var item in objetos)
+            Debug.Log("Mirando objeto: " + hitActual.collider.name);
+            mirandoObjeto = true;
+        }
+        else
+        {
+            mirandoObjeto = false;
+        }
+    }
+
+    void RecogerObjeto(RaycastHit hit)
+    {
+        foreach (var item in objetos)
+        {
+            if (hit.collider != null && hit.collider.CompareTag(item.tagObjeto) && !item.tiene)
             {
-                if (hit.collider.CompareTag(item.tagObjeto) && !item.tiene)
-                {
-                    item.tiene = true;
-                    if (item.iconoUI != null) item.iconoUI.SetActive(true);
-                    Destroy(hit.collider.gameObject);
-                    Debug.Log("Recogido: " + item.tagObjeto);
-                    return;
-                }
+                item.tiene = true;
+                if (item.iconoUI != null) item.iconoUI.SetActive(true);
+                Destroy(hit.collider.gameObject);
+                Debug.Log("Recogido: " + item.tagObjeto);
+                return;
             }
         }
     }
@@ -71,8 +127,6 @@ public class InventoryUI : MonoBehaviour
             dropPos.y += 0.5f;
 
             GameObject nuevoObjeto = Instantiate(item.prefab, dropPos, Quaternion.identity);
-
-            //  Asignar la tag correcta
             nuevoObjeto.tag = item.tagObjeto;
 
             if (nuevoObjeto.GetComponent<Rigidbody>() == null)
@@ -84,27 +138,13 @@ public class InventoryUI : MonoBehaviour
         }
     }
 
-
-    public bool TieneObjeto(string tagObjeto)
+    void ReiniciarSlider()
     {
-        foreach (var item in objetos)
+        progresoRecogida = 0f;
+        if (recogerSlider != null)
         {
-            if (item.tagObjeto == tagObjeto && item.tiene)
-                return true;
-        }
-        return false;
-    }
-
-    public void EliminarObjeto(string tagObjeto)
-    {
-        foreach (var item in objetos)
-        {
-            if (item.tagObjeto == tagObjeto && item.tiene)
-            {
-                item.tiene = false;
-                if (item.iconoUI != null) item.iconoUI.SetActive(false);
-                return;
-            }
+            recogerSlider.value = 0f;
+            recogerSlider.gameObject.SetActive(false);
         }
     }
 }
