@@ -26,6 +26,9 @@ public class DialogueSystem : MonoBehaviour
     private bool isTyping = false;
     private Coroutine typingCoroutine;
 
+    [SerializeField] bool isNPC; // Para saber si con quien hablamos es NPC o no
+    int rnd; // El numero aleatorio para los dialogos del NPC
+
     private void Start()
     {
         LoadDialogueFromArchive();
@@ -91,7 +94,15 @@ public class DialogueSystem : MonoBehaviour
         promptPanel.SetActive(false);
 
         currentIndex = 0;
-        StartTypingText(dialogueLines[currentIndex]);
+
+        if (isNPC == true)
+        {
+            StartTypingText(dialogueLines[rnd]);
+        }
+        else
+        {
+            StartTypingText(dialogueLines[currentIndex]);
+        }
 
         if (playerControllerScript != null)
             playerControllerScript.enabled = false; // Bloquea movimiento del jugador
@@ -99,10 +110,20 @@ public class DialogueSystem : MonoBehaviour
 
     void DisplayNextLine()
     {
+        rnd = Random.Range(0, dialogueLines.Length);
+
         currentIndex++;
         if (currentIndex < dialogueLines.Length)
         {
-            StartTypingText(dialogueLines[currentIndex]);
+            if(isNPC == true)
+            {
+                StartTypingText(dialogueLines[rnd]);
+                EndDialogue();
+
+            } else
+            {
+                StartTypingText(dialogueLines[currentIndex]);
+            }
         }
         else
         {
@@ -116,7 +137,10 @@ public class DialogueSystem : MonoBehaviour
         isDialogueActive = false;
 
         if (playerControllerScript != null)
+        {
             playerControllerScript.enabled = true; // Reactiva movimiento
+            promptPanel.SetActive(true);
+        }
     }
 
     void LoadDialogueFromArchive()
@@ -165,7 +189,17 @@ public class DialogueSystem : MonoBehaviour
         {
             StopCoroutine(typingCoroutine);
         }
-        dialogueText.text = dialogueLines[currentIndex];
+
+        if (isNPC == true)
+        {
+            dialogueText.text = dialogueLines[rnd];
+            //EndDialogue();
+        }
+        else
+        {
+            dialogueText.text = dialogueLines[currentIndex];
+        }
+
         isTyping = false;
     }
 }
