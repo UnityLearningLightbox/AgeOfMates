@@ -3,16 +3,23 @@ using UnityEngine;
 
 public class SandStorm : MonoBehaviour
 {
+    [Header("Player Settings")]
     [SerializeField] Transform teleportPosition; // El prefab SandStorm tiene una position para teletransportar al player
     //[SerializeField] PlayerController playerController;
     [SerializeField] TademiusController playerController;
     [SerializeField] Transform playerPosition;
 
+    [Header("Warning Settings")]
     [SerializeField] GameObject warningCanvas;
     [SerializeField] Animator warningCanvasAnimation;
 
-    [SerializeField] GameObject sandStormToDestroy;
+    [Header("Minigame completed")]
+    [SerializeField] GameObject sandStormToDestroy; // Será si mismo
     public bool minigameCompleted; // Este sera el booleano que se mandara al minijuego en cuestion cuando se complete.
+
+    [Header("Player fainting")]
+    [SerializeField] GameObject faintCanvas;
+    [SerializeField] Animator faintAnimator;
 
     private void Start()
     {
@@ -34,12 +41,11 @@ public class SandStorm : MonoBehaviour
         {
             warningCanvas.SetActive(false);
         }
+        faintCanvas.SetActive(false);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("El player entra en el collider?");
-
         if (other.CompareTag("Player"))
         {
             StartCoroutine(FaintingPlayer());
@@ -52,6 +58,8 @@ public class SandStorm : MonoBehaviour
         {
             playerController.playerSpeed *= 2;
             playerController.runningSpeed *= 2;
+
+            StartCoroutine(WakingUpPlayer());
         }
     }
 
@@ -65,9 +73,18 @@ public class SandStorm : MonoBehaviour
         warningCanvasAnimation.SetBool("isFading", true);
 
         yield return new WaitForSeconds(3f);
-        Debug.Log("El player se desmaya.");
+        faintCanvas.SetActive(true);
+
+        yield return new WaitForSeconds(2f);
 
         warningCanvas.SetActive(false);
         playerPosition.position = teleportPosition.position;
+    }
+
+    IEnumerator WakingUpPlayer()
+    {
+        faintAnimator.SetBool("isFainting", true);
+        yield return new WaitForSeconds(3f);
+        faintCanvas.SetActive(false);
     }
 }
