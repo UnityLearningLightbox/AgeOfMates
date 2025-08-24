@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.Cinemachine;
 using UnityEngine;
 
@@ -38,6 +39,10 @@ public class TademiusController : MonoBehaviour
     [SerializeField] Rigidbody rb;
     [SerializeField] Animator animator;
 
+    //[Header("Quest Testing")]
+    //[SerializeField] GameObject canvasQuestTEST;
+    //bool pressedTab;
+
     private void Start()
     {
         InitialSettings();
@@ -46,6 +51,8 @@ public class TademiusController : MonoBehaviour
     private void Update()
     {
         CameraRotation();
+
+        //OpenQuestTab();
     }
 
     private void FixedUpdate()
@@ -185,4 +192,21 @@ public class TademiusController : MonoBehaviour
             lookAt.rotation = cameraRotation;
         }
     }
+
+    #region Abrir/Cerrar ventana de Quest (no funciona)
+    //void OpenQuestTab()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.Tab) && pressedTab == false)
+    //    {
+    //        canvasQuestTEST.SetActive(true);
+    //        pressedTab = true;
+
+    //    }
+    //    else if (Input.GetKeyDown(KeyCode.Tab) && pressedTab == true)
+    //    {
+    //        canvasQuestTEST.SetActive(false);
+    //        pressedTab = false;
+    //    }
+    //}
+    #endregion
 }

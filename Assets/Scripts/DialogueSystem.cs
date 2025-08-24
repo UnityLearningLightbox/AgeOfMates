@@ -26,8 +26,19 @@ public class DialogueSystem : MonoBehaviour
     private bool isTyping = false;
     private Coroutine typingCoroutine;
 
+    [Header("NPC or Object")]
     [SerializeField] bool isNPC; // Para saber si con quien hablamos es NPC o no
+    //[SerializeField] bool itGuivesQuest; // Si el npc en question te da una Quest
     int rnd; // El numero aleatorio para los dialogos del NPC
+
+    //[Header("NPC Quests Controller")]
+    ////public bool[] givesQuest;
+    //public int questInProgressIndex; // Lo que dira mientras la quest esta en progreso
+    //public int questCompletedIndex; // Lo que dira cuando completes la quest
+    //public Quest quest; // La quest que da el NPC
+
+    //private enum QuestState {  NotStarted, InProgress, Completed }
+    //private QuestState questState = QuestState.NotStarted;
 
     private void Start()
     {
@@ -89,6 +100,29 @@ public class DialogueSystem : MonoBehaviour
     {
         if (dialogueLines == null || dialogueLines.Length == 0) return;
 
+        #region Intento de sistema de quests
+        // Sincronizarlo con quest data
+        //SyncQuestState();
+
+        // Setear una linea de dialogo segun el questState
+        //if (questState == QuestState.NotStarted)
+        //{
+        //    currentIndex = 0;
+
+        //} else if(questState == QuestState.InProgress)
+        //{
+        //    currentIndex = questInProgressIndex;
+
+        //} else if(questState == QuestState.Completed)
+        //{
+        //    currentIndex = questCompletedIndex;
+
+        //} else
+        //{
+        //    currentIndex = 0;
+        //}
+        #endregion
+
         isDialogueActive = true;
         dialoguePanel.SetActive(true);
         promptPanel.SetActive(false);
@@ -99,6 +133,13 @@ public class DialogueSystem : MonoBehaviour
         {
             StartTypingText(dialogueLines[rnd]);
         }
+        //else if (isNPC == true && itGuivesQuest == true)
+        //{
+        //    while(currentIndex < 2)
+        //    {
+        //        StartTypingText(dialogueLines[currentIndex]);
+        //    }
+        //}
         else
         {
             StartTypingText(dialogueLines[currentIndex]);
@@ -107,6 +148,34 @@ public class DialogueSystem : MonoBehaviour
         if (playerControllerScript != null)
             playerControllerScript.enabled = false; // Bloquea movimiento del jugador
     }
+
+    // Intento de hacer un sistema de quest pero no funciona tal y como tenemos montado los dialogos
+    //private void SyncQuestState()
+    //{
+    //    if (dialogueLines == null) return;
+    //    if (quest == null) return;
+
+    //    string questID = quest.questID;
+
+    //    // Próxima actualización agregará completar misiones y entregarlas.
+    //    if(questID != null)
+    //    {
+    //        Debug.Log("Quest Controller: " + QuestController.Instance);
+    //        Debug.Log("Quest ID string: " + questID);
+    //        Debug.Log("Quest ID quest.questID: " + quest.questID);
+    //        Debug.Log("NPC Quest: " + npcQuest);
+    //        Debug.Log("Quest Controller Instance: " + QuestController.Instance.IsQuestActive(npcQuest.questID));
+
+    //        if (QuestController.Instance.IsQuestActive(npcQuest.questID))
+    //        {
+    //            questState = QuestState.InProgress;
+
+    //        } else
+    //        {
+    //            questState = QuestState.NotStarted;
+    //        }
+    //    }
+    //}
 
     void DisplayNextLine()
     {
@@ -135,6 +204,14 @@ public class DialogueSystem : MonoBehaviour
     {
         dialoguePanel.SetActive(false);
         isDialogueActive = false;
+
+        //if(isNPC == true && itGuivesQuest == true)
+        //{
+        //    QuestController.Instance.AcceptQuest(quest);
+        //    questState = QuestState.InProgress;
+        //    playerControllerScript.enabled = true; // Reactiva movimiento
+        //    promptPanel.SetActive(true);
+        //}
 
         if (playerControllerScript != null)
         {
