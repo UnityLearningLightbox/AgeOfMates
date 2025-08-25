@@ -51,8 +51,13 @@ public class InventoryUI : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.E))
             {
-                if (!recogerSlider.gameObject.activeSelf)
-                    recogerSlider.gameObject.SetActive(true);
+                Debug.Log("Pulsa E para recoger");
+
+                if(recogerSlider != null)
+                {
+                    if (!recogerSlider.gameObject.activeSelf)
+                        recogerSlider.gameObject.SetActive(true);
+                }
 
                 progresoRecogida += Time.deltaTime / tiempoParaRecoger;
                 recogerSlider.value = progresoRecogida;
