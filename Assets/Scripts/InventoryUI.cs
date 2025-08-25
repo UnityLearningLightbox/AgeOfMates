@@ -152,4 +152,38 @@ public class InventoryUI : MonoBehaviour
             recogerSlider.gameObject.SetActive(false);
         }
     }
+
+    public List<string> GetInventoryIDs()
+    {
+        List<string> ids = new List<string>();
+        foreach (var item in objetos)
+        {
+            if (item.tiene)
+                ids.Add(item.tagObjeto);
+        }
+        return ids;
+    }
+
+    public void ClearInventory()
+    {
+        foreach (var item in objetos)
+        {
+            item.tiene = false;
+            if (item.iconoUI != null) item.iconoUI.SetActive(false);
+        }
+    }
+
+    public void AddItemByID(string id)
+    {
+        foreach (var item in objetos)
+        {
+            if (item.tagObjeto == id)
+            {
+                item.tiene = true;
+                if (item.iconoUI != null) item.iconoUI.SetActive(true);
+                return;
+            }
+        }
+        Debug.LogWarning("AddItemByID: No se encontró item con ID " + id);
+    }
 }

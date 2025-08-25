@@ -3,23 +3,21 @@ using UnityEngine;
 using System.IO;
 using UnityEngine.SceneManagement;
 
-#if ENABLE_INPUT_SYSTEM
-using UnityEngine.InputSystem;
-#endif
-
 [System.Serializable]
 public class SaveData
 {
     public float playerPosX;
     public float playerPosY;
     public float playerPosZ;
-    // public List<string> inventoryItems; // <-- comentado para usar más adelante
+    public List<string> inventoryItems; // ahora activado
 }
 
 public class PauseMenu : MonoBehaviour
 {
     [Header("UI")]
     [SerializeField] private GameObject pauseMenuUI;
+    [SerializeField] private GameObject saveMessageUI;
+    [SerializeField] private float messageDuration = 2f;
 
     [Header("Input")]
     [SerializeField] private KeyCode pauseKey = KeyCode.Escape;
@@ -27,7 +25,7 @@ public class PauseMenu : MonoBehaviour
     [Header("Player & Inventory")]
     [SerializeField] private MonoBehaviour playerControllerScript;
     [SerializeField] private Transform playerTransform;
-    // [SerializeField] private InventoryUI playerInventory; // <-- comentado
+    [SerializeField] private InventoryUI playerInventory; // ahora activado
 
     [Header("Save Settings")]
     [SerializeField] private string saveFileName = "save.json";
@@ -44,34 +42,23 @@ public class PauseMenu : MonoBehaviour
         playerControllerWasEnabled = playerControllerScript != null ? playerControllerScript.enabled : true;
 
         if (pauseMenuUI != null) pauseMenuUI.SetActive(false);
+        if (saveMessageUI != null) saveMessageUI.SetActive(false);
+
         Time.timeScale = 1f;
         GameIsPaused = false;
 
         LockCursor(true);
 
-        LoadGame(); // Cargar datos al iniciar la escena
+        LoadGame(); // carga inicial
     }
 
     void Update()
     {
-        if (PauseKeyPressed())
+        if (Input.GetKeyDown(pauseKey))
         {
             if (GameIsPaused) Resume();
             else Pause();
         }
-    }
-
-    bool PauseKeyPressed()
-    {
-        // Legacy Input
-        if (Input.GetKeyDown(pauseKey)) return true;
-
-        // New Input System
-#if ENABLE_INPUT_SYSTEM
-        if (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame) return true;
-#endif
-
-        return false;
     }
 
     public void Pause()
@@ -98,9 +85,9 @@ public class PauseMenu : MonoBehaviour
 
     public void SaveGame()
     {
-        if (playerTransform == null /*|| playerInventory == null*/)
+        if (playerTransform == null || playerInventory == null)
         {
-            Debug.LogWarning("PauseMenu: Player no asignado para guardar.");
+            Debug.LogWarning("PauseMenu: Player o Inventario no asignados.");
             return;
         }
 
@@ -109,20 +96,34 @@ public class PauseMenu : MonoBehaviour
             playerPosX = playerTransform.position.x,
             playerPosY = playerTransform.position.y,
             playerPosZ = playerTransform.position.z,
-            // inventoryItems = playerInventory.GetInventoryIDs() // <-- comentado
+            inventoryItems = playerInventory.GetInventoryIDs()
         };
 
-        Debug.Log("Datos guardados");
         string json = JsonUtility.ToJson(data, true);
         File.WriteAllText(savePath, json);
         Debug.Log("Juego guardado en: " + savePath);
+
+        if (saveMessageUI != null)
+        {
+            saveMessageUI.SetActive(true);
+            CancelInvoke(nameof(HideSaveMessage));
+            Invoke(nameof(HideSaveMessage), messageDuration);
+        }
+
+        Resume();
+    }
+
+    private void HideSaveMessage()
+    {
+        if (saveMessageUI != null)
+            saveMessageUI.SetActive(false);
     }
 
     public void LoadGame()
     {
         if (!File.Exists(savePath))
         {
-            Debug.Log("No se encontró archivo de guardado, se inicia juego desde cero.");
+            Debug.Log("No se encontró archivo de guardado, juego nuevo.");
             return;
         }
 
@@ -132,16 +133,14 @@ public class PauseMenu : MonoBehaviour
         if (playerTransform != null)
             playerTransform.position = new Vector3(data.playerPosX, data.playerPosY, data.playerPosZ);
 
-        /*
         if (playerInventory != null)
         {
-            playerInventory.ClearInventory(); // Limpia antes de cargar
+            playerInventory.ClearInventory();
             foreach (var id in data.inventoryItems)
             {
-                playerInventory.AddItemByID(id); // Añade cada item por su ID
+                playerInventory.AddItemByID(id);
             }
         }
-        */
 
         Debug.Log("Juego cargado desde: " + savePath);
     }
@@ -149,11 +148,7 @@ public class PauseMenu : MonoBehaviour
     public void QuitGame()
     {
         Time.timeScale = 1f;
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#else
-        Application.Quit();
-#endif
+        SceneManager.LoadScene("MainMenu");
     }
 
     private void LockCursor(bool locked)
