@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8291410854428543901}
+  - component: {fileID: 9056093218527093057}
   m_Layer: 0
   m_Name: Egyptian1TposeParent
   m_TagString: Untagged
@@ -24,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 718992062154676162}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.98381025, z: -0, w: 0.17921355}
+  m_LocalRotation: {x: 0, y: 0.98381007, z: 0, w: 0.17921442}
   m_LocalPosition: {x: 656.3208, y: 32.48, z: 294.9652}
   m_LocalScale: {x: 0.017, y: 0.017, z: 0.017}
   m_ConstrainProportionsScale: 0
@@ -32,6 +33,24 @@ Transform:
   - {fileID: 7076466952464098271}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 159.352, z: 0}
+--- !u!114 &9056093218527093057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 718992062154676162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7abd3cac9b00cff469a1dab90a0322ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objetoEsperadoTag: Objeto1
+  rangoEntrega: 5.35
+  objetoEntregado: 0
+  objetoSoltado: 0
+  activeDialogue: {fileID: 0}
+  canvasDialogue: {fileID: 0}
 --- !u!1001 &7331315171284255796
 PrefabInstance:
   m_ObjectHideFlags: 0
