@@ -7678,6 +7678,18 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 1028718198}
+    - target: {fileID: 4861065874297416074, guid: 588ee3801a592204691c8b02f3f1e6db, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 1af01f3195ce6e3499594626d1d25935, type: 2}
+    - target: {fileID: 4861065874297416074, guid: 588ee3801a592204691c8b02f3f1e6db, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 7276812574039958118, guid: 1af01f3195ce6e3499594626d1d25935, type: 2}
+    - target: {fileID: 4861065874297416074, guid: 588ee3801a592204691c8b02f3f1e6db, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -8025,8 +8037,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Pulsa E para interactuar
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 1af01f3195ce6e3499594626d1d25935, type: 2}
-  m_sharedMaterial: {fileID: 4187487935923723041, guid: 1af01f3195ce6e3499594626d1d25935, type: 2}
+  m_fontAsset: {fileID: 0}
+  m_sharedMaterial: {fileID: 0}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -8267,6 +8279,18 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 1028718198}
+    - target: {fileID: 6549746713942168427, guid: c3ef72190a1d08543903291f9333c332, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 1af01f3195ce6e3499594626d1d25935, type: 2}
+    - target: {fileID: 6549746713942168427, guid: c3ef72190a1d08543903291f9333c332, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 7276812574039958118, guid: 1af01f3195ce6e3499594626d1d25935, type: 2}
+    - target: {fileID: 6549746713942168427, guid: c3ef72190a1d08543903291f9333c332, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
