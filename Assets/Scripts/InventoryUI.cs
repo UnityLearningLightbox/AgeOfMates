@@ -131,10 +131,14 @@ public class InventoryUI : MonoBehaviour
         if (item.tiene && item.prefab != null && puntoDrop != null)
         {
             Vector3 dropPos = puntoDrop.position + puntoDrop.forward * 1.5f;
+            
             dropPos.y += 0.5f;
 
             GameObject nuevoObjeto = Instantiate(item.prefab, dropPos, Quaternion.identity);
             nuevoObjeto.tag = item.tagObjeto;
+            // Rotación usando Quaternion.Euler (grados)
+            nuevoObjeto.transform.rotation = Quaternion.Euler(-90f, 0f, 0f);
+
 
             if (nuevoObjeto.GetComponent<Rigidbody>() == null)
                 nuevoObjeto.AddComponent<Rigidbody>();
