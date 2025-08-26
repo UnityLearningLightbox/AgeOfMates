@@ -7,9 +7,19 @@ public class NPCEntrega : MonoBehaviour
 
     private bool objetoEntregado = false;
 
+    [SerializeField] GameObject activeDialogue;
+    [SerializeField] GameObject canvasDialogue;
+
     private void Update()
     {
-        if (objetoEntregado) return;
+        //if (objetoEntregado) return;
+        if (objetoEntregado == true)
+        {
+            Debug.Log("Por que leches no entras perro?");
+            // Desactivar la quest y el icono en la brujula al entregar el objeto
+            activeDialogue.SetActive(false);
+            canvasDialogue.SetActive(false);
+        }
 
         // Buscar el objeto dropeado en la escena
         GameObject objeto = GameObject.FindWithTag(objetoEsperadoTag);
