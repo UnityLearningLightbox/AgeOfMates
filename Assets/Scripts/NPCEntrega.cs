@@ -2,43 +2,48 @@ using UnityEngine;
 
 public class NPCEntrega : MonoBehaviour
 {
-    public string objetoEsperadoTag;  // Tag del objeto que espera
-    public float rangoEntrega = 2f;   // Distancia máxima para recogerlo
+    public string objetoEsperadoTag;
+    public float rangoEntrega = 2f;
+    public bool objetoEntregado = false;
+    public bool objetoSoltado = false;
 
-    private bool objetoEntregado = false;
-
-    [SerializeField] GameObject activeDialogue;
-    [SerializeField] GameObject canvasDialogue;
+    [SerializeField] private GameObject activeDialogue;
+    [SerializeField] private GameObject canvasDialogue;
 
     private void Update()
     {
-        //if (objetoEntregado) return;
-        if (objetoEntregado == true)
+        if (objetoEntregado)
         {
-            Debug.Log("Por que leches no entras perro?");
-            // Desactivar la quest y el icono en la brujula al entregar el objeto
-            activeDialogue.SetActive(false);
-            canvasDialogue.SetActive(false);
+            if (activeDialogue.activeSelf || canvasDialogue.activeSelf)
+            {
+                activeDialogue.SetActive(false);
+                canvasDialogue.SetActive(false);
+            }
+            return;
         }
 
-        // Buscar el objeto dropeado en la escena
-        GameObject objeto = GameObject.FindWithTag(objetoEsperadoTag);
-
-        if (objeto != null)
+        if (objetoSoltado)
         {
-            float distancia = Vector3.Distance(transform.position, objeto.transform.position);
-
-            if (distancia <= rangoEntrega)
+            GameObject objeto = GameObject.FindWithTag(objetoEsperadoTag);
+            if (objeto != null)
             {
-                // "Recoger" el objeto
-                Destroy(objeto); // Borra el objeto del mapa
-                Debug.Log("¡Gracias por entregar " + objetoEsperadoTag + "!");
-                objetoEntregado = true;
+                float distancia = Vector3.Distance(transform.position, objeto.transform.position);
+                Debug.Log($"Distancia al objeto: {distancia}");
+
+                if (distancia <= rangoEntrega)
+                {
+                    Debug.Log($"¡Gracias por entregar {objetoEsperadoTag}!");
+                    objetoEntregado = true;
+                    Destroy(objeto);
+                }
+            }
+            else
+            {
+                Debug.Log("No encuentro el objeto con el tag: " + objetoEsperadoTag);
             }
         }
     }
 
-    // Dibujar el rango en la escena con Gizmos
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.green;

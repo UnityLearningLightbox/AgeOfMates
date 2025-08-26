@@ -32,6 +32,8 @@ public class InventoryUI : MonoBehaviour
     private bool mirandoObjeto = false;
     private float progresoRecogida = 0f;
 
+    [SerializeField] private NPCEntrega npc; // Arrastra aquí tu NPC
+
     void Start()
     {
         if (recogerSlider != null)
@@ -140,8 +142,16 @@ public class InventoryUI : MonoBehaviour
             if (item.iconoUI != null) item.iconoUI.SetActive(false);
             item.tiene = false;
             Debug.Log("Dropped: " + item.tagObjeto);
+
+            //  Avisar al NPC
+            if (npc != null && item.tagObjeto == npc.objetoEsperadoTag)
+            {
+                npc.objetoSoltado = true;
+                Debug.Log("NPC notificado: objetoSoltado = true");
+            }
         }
     }
+
 
     void ReiniciarSlider()
     {
