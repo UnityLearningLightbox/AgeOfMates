@@ -217,7 +217,7 @@ public class KhepriDialogues : MonoBehaviour
     {
         while (currentIndex < dialogueLines.Length)
         {
-            yield return new WaitForSeconds(3f);
+            yield return new WaitForSeconds(4f);
             //DisplayNextLine();
             //currentIndex++;
             //StartTypingText(dialogueLines[currentIndex]);
