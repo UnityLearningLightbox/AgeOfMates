@@ -9,7 +9,7 @@ public class SaveData
     public float playerPosX;
     public float playerPosY;
     public float playerPosZ;
-    //public List<string> inventoryItems; // ahora activado
+    public List<string> inventoryItems; // ahora activado
 }
 
 public class PauseMenu : MonoBehaviour
@@ -25,7 +25,7 @@ public class PauseMenu : MonoBehaviour
     [Header("Player & Inventory")]
     [SerializeField] private MonoBehaviour playerControllerScript;
     [SerializeField] private Transform playerTransform;
-    //[SerializeField] private InventoryUI playerInventory; // ahora activado
+    [SerializeField] private InventoryUI playerInventory; // ahora activado
 
     [Header("Save Settings")]
     [SerializeField] private string saveFileName = "save.json";
@@ -85,7 +85,7 @@ public class PauseMenu : MonoBehaviour
 
     public void SaveGame()
     {
-        if (playerTransform == null /*|| playerInventory == null*/)
+        if (playerTransform == null || playerInventory == null)
         {
             Debug.LogWarning("PauseMenu: Player o Inventario no asignados.");
             return;
@@ -96,7 +96,7 @@ public class PauseMenu : MonoBehaviour
             playerPosX = playerTransform.position.x,
             playerPosY = playerTransform.position.y,
             playerPosZ = playerTransform.position.z,
-            //inventoryItems = playerInventory.GetInventoryIDs()
+            inventoryItems = playerInventory.GetInventoryIDs()
         };
 
         string json = JsonUtility.ToJson(data, true);
@@ -133,14 +133,14 @@ public class PauseMenu : MonoBehaviour
         if (playerTransform != null)
             playerTransform.position = new Vector3(data.playerPosX, data.playerPosY, data.playerPosZ);
 
-        /*if (playerInventory != null)
+        if (playerInventory != null)
         {
             playerInventory.ClearInventory();
             foreach (var id in data.inventoryItems)
             {
                 playerInventory.AddItemByID(id);
             }
-        }*/
+        }
 
         Debug.Log("Juego cargado desde: " + savePath);
     }
