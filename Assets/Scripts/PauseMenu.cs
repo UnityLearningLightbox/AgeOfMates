@@ -130,15 +130,27 @@ public class PauseMenu : MonoBehaviour
         string json = File.ReadAllText(savePath);
         SaveData data = JsonUtility.FromJson<SaveData>(json);
 
+        // Posición del jugador
         if (playerTransform != null)
             playerTransform.position = new Vector3(data.playerPosX, data.playerPosY, data.playerPosZ);
 
+        // Inventario
         if (playerInventory != null)
         {
             playerInventory.ClearInventory();
             foreach (var id in data.inventoryItems)
             {
                 playerInventory.AddItemByID(id);
+            }
+        }
+
+        // Destruir objetos en la escena que ya están en el inventario
+        foreach (var id in data.inventoryItems)
+        {
+            GameObject[] objetosEnEscena = GameObject.FindGameObjectsWithTag(id);
+            foreach (var obj in objetosEnEscena)
+            {
+                Destroy(obj);
             }
         }
 

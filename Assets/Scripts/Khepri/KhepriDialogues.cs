@@ -102,7 +102,7 @@ public class KhepriDialogues : MonoBehaviour
             {
                 StartDialogue();
             }
-            else if (!isTyping) // poniendo un "&& Input.GetKeyDown(KeyCode.E)" lo hace bien pero el jugador tiene que darle a la E al iniciar la partida
+            else if (!isTyping && Input.GetKeyDown(KeyCode.E)) // poniendo un "&& Input.GetKeyDown(KeyCode.E)" lo hace bien pero el jugador tiene que darle a la E al iniciar la partida
             {
                 AutoNextLine();
             }
@@ -217,7 +217,7 @@ public class KhepriDialogues : MonoBehaviour
     {
         while (currentIndex < dialogueLines.Length)
         {
-            yield return new WaitForSeconds(3f);
+            yield return new WaitForSeconds(4f);
             //DisplayNextLine();
             //currentIndex++;
             //StartTypingText(dialogueLines[currentIndex]);

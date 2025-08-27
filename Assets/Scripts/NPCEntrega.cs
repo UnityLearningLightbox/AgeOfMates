@@ -7,19 +7,22 @@ public class NPCEntrega : MonoBehaviour
     public bool objetoEntregado = false;
     public bool objetoSoltado = false;
 
-    [SerializeField] private GameObject activeDialogue;
-    [SerializeField] private GameObject canvasDialogue;
+    [SerializeField] GameObject activeDialogue;
+    [SerializeField] GameObject canvasDialogue;
+    [SerializeField] CompassQuestMarker compassCanvas;
+
+    private void Start()
+    {
+        compassCanvas = GetComponent<CompassQuestMarker>();
+    }
 
     private void Update()
     {
         if (objetoEntregado)
         {
-            if (activeDialogue.activeSelf || canvasDialogue.activeSelf)
-            {
-                activeDialogue.SetActive(false);
-                canvasDialogue.SetActive(false);
-            }
-            return;
+            activeDialogue.SetActive(false);
+            canvasDialogue.SetActive(false);
+            compassCanvas.image.enabled = false;
         }
 
         if (objetoSoltado)

@@ -28,8 +28,9 @@ public class DialogueSystem : MonoBehaviour
 
     [Header("NPC or Object")]
     [SerializeField] bool isNPC; // Para saber si con quien hablamos es NPC o no
-    //[SerializeField] bool itGuivesQuest; // Si el npc en question te da una Quest
     int rnd; // El numero aleatorio para los dialogos del NPC
+
+    //[SerializeField] bool itGuivesQuest; // Si el npc en question te da una Quest
 
     //[Header("NPC Quests Controller")]
     ////public bool[] givesQuest;
