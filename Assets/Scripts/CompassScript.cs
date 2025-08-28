@@ -41,8 +41,11 @@ public class CompassScript : MonoBehaviour
 
     private void Update()
     {
-        UpdateCompassInfo();
-        UpdateMarkerInfo();
+        if(questsArray != null)
+        {
+            UpdateCompassInfo();
+            UpdateMarkerInfo();
+        }
 
         compassImage.uvRect = new Rect(playerCamera.eulerAngles.y / 360f, 0f, 1f, 1f); // Para que la imagen de la linea gire en X junto con la camara, 360º
     }
@@ -63,7 +66,7 @@ public class CompassScript : MonoBehaviour
         // Nos da una unidad respecto al tamaño de la pantalla equivalente a un grado de rotacion en el mundo real
         // Osea se, si el jugador se gira un grado, eso equivale a una cierta cantidad de tamaño de pantalla sobre la brujula
 
-        if(questsArray.Length > 0)
+        if(questsArray != null && questsArray.Length > 0)
         {
             AddQuestObjective();
         }

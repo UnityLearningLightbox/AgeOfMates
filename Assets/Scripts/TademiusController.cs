@@ -35,6 +35,8 @@ public class TademiusController : MonoBehaviour
     [SerializeField] Transform lookAt;
     [SerializeField] Vector3 lookAtOffset;
 
+    [SerializeField] FootstepAudio footstepAudio;
+
     [Header("Components")]
     [SerializeField] Rigidbody rb;
     [SerializeField] Animator animator;
@@ -125,6 +127,11 @@ public class TademiusController : MonoBehaviour
         else
         {
             playerSpeed = defaultPlayerSpeed;
+        }
+
+        if (footstepAudio != null)
+        {
+            footstepAudio.TryPlayFootstep(transform.position, isRunning);
         }
     }
 
