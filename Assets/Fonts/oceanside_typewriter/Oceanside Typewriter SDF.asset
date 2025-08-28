@@ -1,6 +1,56 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+<<<<<<< HEAD
+--- !u!28 &-3237216793308252104
+Texture2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Oceanside Typewriter Atlas
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_IsAlphaChannelOptional: 0
+  serializedVersion: 3
+  m_Width: 1
+  m_Height: 1
+  m_CompleteImageSize: 1
+  m_MipsStripped: 0
+  m_TextureFormat: 1
+  m_MipCount: 1
+  m_IsReadable: 1
+  m_IsPreProcessed: 0
+  m_IgnoreMipmapLimit: 1
+  m_MipmapLimitGroupName: 
+  m_StreamingMipmaps: 0
+  m_StreamingMipmapsPriority: 0
+  m_VTOnly: 0
+  m_AlphaIsTransparency: 0
+  m_ImageCount: 1
+  m_TextureDimension: 2
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 0
+    m_WrapV: 0
+    m_WrapW: 0
+  m_LightmapFormat: 0
+  m_ColorSpace: 1
+  m_PlatformBlob: 
+  image data: 1
+  _typelessdata: 00
+  m_StreamData:
+    serializedVersion: 2
+    offset: 0
+    size: 0
+    path: 
+--- !u!21 &-3155121918724673543
+=======
 --- !u!21 &-4577295067308546211
+>>>>>>> 032ec2647c45e9f02ad5b0529133dfead703ce00
 Material:
   serializedVersion: 8
   m_ObjectHideFlags: 0
@@ -169,6 +219,10 @@ MonoBehaviour:
   m_SourceFontFilePath: 
   m_AtlasPopulationMode: 1
   InternalDynamicOS: 0
+<<<<<<< HEAD
+  m_GlyphTable: []
+  m_CharacterTable: []
+=======
   m_GlyphTable:
   - m_Index: 3
     m_Metrics:
@@ -1273,6 +1327,7 @@ MonoBehaviour:
     m_Unicode: 193
     m_GlyphIndex: 5
     m_Scale: 1
+>>>>>>> 032ec2647c45e9f02ad5b0529133dfead703ce00
   m_AtlasTextures:
   - {fileID: 1559558016360252117}
   m_AtlasTextureIndex: 0
@@ -1283,6 +1338,14 @@ MonoBehaviour:
   m_AtlasHeight: 1024
   m_AtlasPadding: 9
   m_AtlasRenderMode: 4165
+<<<<<<< HEAD
+  m_UsedGlyphRects: []
+  m_FreeGlyphRects:
+  - m_X: 0
+    m_Y: 0
+    m_Width: 1023
+    m_Height: 1023
+=======
   m_UsedGlyphRects:
   - m_X: 0
     m_Y: 0
@@ -1725,6 +1788,7 @@ MonoBehaviour:
     m_Y: 162
     m_Width: 26
     m_Height: 861
+>>>>>>> 032ec2647c45e9f02ad5b0529133dfead703ce00
   m_FontFeatureTable:
     m_MultipleSubstitutionRecords: []
     m_LigatureSubstitutionRecords: []
