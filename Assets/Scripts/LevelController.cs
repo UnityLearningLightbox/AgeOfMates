@@ -14,37 +14,84 @@ public class LevelController : MonoBehaviour
     [SerializeField] GameObject startCanvas;
     [SerializeField] GameObject compassCanvas;
 
+    [SerializeField] GameObject startCanvasParent;
+    [SerializeField] GameObject timeline;
+
     [Header("Player Controller")]
     [SerializeField] TademiusController playerController;
 
     [Header("Cinematic State")]
     public bool cinematicPlayed;
+    public PauseMenu pauseMenu;
 
     private Coroutine cinematicRoutine;
 
 
-    /*private void Awake()
-    {
-        if(cinematicPlayed == false)
-        {
-            startCanvas.SetActive(true);
-            compassCanvas.SetActive(false);
-            playerController.enabled = false;
-
-            playerPosition.position = startPosition.position;
-            
-            StartCoroutine(IntroScene());
-        }
-                
-    }*/
-
     private void Awake()
     {
-        // Por defecto desactivamos todo
-        if (startCanvas != null) startCanvas.SetActive(false);
-        if (compassCanvas != null) compassCanvas.SetActive(false);
-        if (playerController != null) playerController.enabled = false;
+        if(pauseMenu != null)
+        {
+            pauseMenu.LoadGame();
+
+            if (cinematicPlayed == false)
+            {
+                Debug.Log("NO SE HA EJECUTADO CINEMATICA");
+                startCanvas.SetActive(true);
+                compassCanvas.SetActive(false);
+                playerController.enabled = false;
+
+                playerPosition.position = startPosition.position;
+
+                StartCoroutine(IntroScene());
+                cinematicPlayed = true;
+                pauseMenu.SaveGame();
+            } else
+            {
+                Debug.Log("Ya se ejecuto la cinematica");
+                //pauseMenu.Resume();
+
+                Destroy(startCanvasParent);
+                Destroy(timeline);
+
+                startCanvas.SetActive(false);
+                compassCanvas.SetActive(true);
+                playerController.enabled = true;
+
+            }
+        }
     }
+
+    private void Update()
+    {
+        Debug.Log("Pause menu: " + pauseMenu);
+        Debug.Log("Pause menu dataSaved: " + pauseMenu.dataSaved);
+        if (pauseMenu.dataSaved != null)
+        {
+            Debug.Log("DATA SAVED: " + pauseMenu.dataSaved);
+            cinematicPlayed = pauseMenu.dataSaved.cinematicPlayed;
+
+            if(pauseMenu.dataSaved.cinematicPlayed == true)
+            {
+                Debug.Log("Ya se ejecuto la cinematica");
+                //pauseMenu.Resume();
+
+                Destroy(startCanvasParent);
+                Destroy(timeline);
+
+                startCanvas.SetActive(false);
+                compassCanvas.SetActive(true);
+                playerController.enabled = true;
+            }
+        }
+    }
+
+    //private void Awake()
+    //{
+    //    // Por defecto desactivamos todo
+    //    if (startCanvas != null) startCanvas.SetActive(false);
+    //    if (compassCanvas != null) compassCanvas.SetActive(false);
+    //    if (playerController != null) playerController.enabled = false;
+    //}
 
 
     /*private void Start()
@@ -141,7 +188,7 @@ public class LevelController : MonoBehaviour
         yield return new WaitForSeconds(2f);
         if (compassCanvas != null) compassCanvas.SetActive(true);
 
-        cinematicPlayed = true; // marcar como vista
+        //cinematicPlayed = true; // marcar como vista
     }
 }
 
