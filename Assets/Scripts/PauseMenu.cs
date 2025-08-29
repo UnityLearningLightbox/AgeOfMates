@@ -3,18 +3,18 @@ using UnityEngine;
 using System.IO;
 using UnityEngine.SceneManagement;
 
+[System.Serializable]
+public class SaveData
+{
+    public float playerPosX;
+    public float playerPosY;
+    public float playerPosZ;
+    public List<string> inventoryItems;
+    public bool cinematicPlayed; 
+}
+
 public class PauseMenu : MonoBehaviour
 {
-    [System.Serializable]
-    public class SaveData
-    {
-        public float playerPosX;
-        public float playerPosY;
-        public float playerPosZ;
-        public List<string> inventoryItems;
-        public bool cinematicPlayed;
-    }
-
     [Header("UI")]
     [SerializeField] private GameObject pauseMenuUI;
     [SerializeField] private GameObject saveMessageUI;
@@ -36,8 +36,6 @@ public class PauseMenu : MonoBehaviour
 
     private string savePath;
 
-    public SaveData dataSaved = new SaveData();
-
     void Awake()
     {
         savePath = Path.Combine(Application.persistentDataPath, saveFileName);
@@ -54,14 +52,11 @@ public class PauseMenu : MonoBehaviour
     }
 
     void Update()
-    { 
-        if(cinematic.cinematicPlayed == true) //////////
+    {
+        if (Input.GetKeyDown(pauseKey))
         {
-            if (Input.GetKeyDown(pauseKey))
-            {
-                if (GameIsPaused) Resume();
-                else Pause();
-            }
+            if (GameIsPaused) Resume();
+            else Pause();
         }
     }
 
@@ -96,13 +91,16 @@ public class PauseMenu : MonoBehaviour
             return;
         }
 
+        // Una vez que se guarda, la intro se considera vista para siempre
+        cinematic.cinematicPlayed = true;
+
         SaveData data = new SaveData
         {
             playerPosX = playerTransform.position.x,
             playerPosY = playerTransform.position.y,
             playerPosZ = playerTransform.position.z,
             inventoryItems = playerInventory.GetInventoryIDs(),
-            cinematicPlayed = cinematic.cinematicPlayed // Guardamos estado de la cinemática
+            cinematicPlayed = cinematic.cinematicPlayed
         };
 
         string json = JsonUtility.ToJson(data, true);
@@ -139,7 +137,6 @@ public class PauseMenu : MonoBehaviour
         }
 
         string json = File.ReadAllText(savePath);
-        Debug.Log("El json esta vacio???? " + json);
         SaveData data = JsonUtility.FromJson<SaveData>(json);
 
         // Posición del jugador
@@ -170,8 +167,7 @@ public class PauseMenu : MonoBehaviour
         if (cinematic != null)
         {
             cinematic.cinematicPlayed = data.cinematicPlayed;
-            dataSaved.cinematicPlayed = data.cinematicPlayed;
-            //cinematic.InitCinematic(); // aquí decidimos si mostrarla o saltarla
+            cinematic.InitCinematic(); // aquí decidimos si mostrarla o saltarla
             Debug.Log("Cinemática jugada: " + cinematic.cinematicPlayed);
         }
 

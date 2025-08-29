@@ -1,19 +1,15 @@
 ﻿using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
 
 public class LevelController : MonoBehaviour
 {
     [Header("Positions")]
-    [SerializeField] Transform startPosition;
-    [SerializeField] Transform playerPosition;
+    [SerializeField] Transform startPosition;   // posición inicial para la primera vez
+    [SerializeField] Transform playerPosition;  // referencia al transform del jugador
 
     [Header("Canvas")]
     [SerializeField] GameObject startCanvas;
     [SerializeField] GameObject compassCanvas;
-
     [SerializeField] GameObject startCanvasParent;
     [SerializeField] GameObject timeline;
 
@@ -21,147 +17,25 @@ public class LevelController : MonoBehaviour
     [SerializeField] TademiusController playerController;
 
     [Header("Cinematic State")]
-    public bool cinematicPlayed;
-    public PauseMenu pauseMenu;
+    public bool cinematicPlayed; // se guarda/carga desde PauseMenu
 
     private Coroutine cinematicRoutine;
 
-
-    private void Awake()
-    {
-        if(pauseMenu != null)
-        {
-            pauseMenu.LoadGame();
-
-            if (cinematicPlayed == false)
-            {
-                Debug.Log("NO SE HA EJECUTADO CINEMATICA");
-                startCanvas.SetActive(true);
-                compassCanvas.SetActive(false);
-                playerController.enabled = false;
-
-                playerPosition.position = startPosition.position;
-
-                StartCoroutine(IntroScene());
-                cinematicPlayed = true;
-                pauseMenu.SaveGame();
-            } else
-            {
-                Debug.Log("Ya se ejecuto la cinematica");
-                //pauseMenu.Resume();
-
-                Destroy(startCanvasParent);
-                Destroy(timeline);
-
-                startCanvas.SetActive(false);
-                compassCanvas.SetActive(true);
-                playerController.enabled = true;
-
-            }
-        }
-    }
-
-    private void Update()
-    {
-        Debug.Log("Pause menu: " + pauseMenu);
-        Debug.Log("Pause menu dataSaved: " + pauseMenu.dataSaved);
-        if (pauseMenu.dataSaved != null)
-        {
-            Debug.Log("DATA SAVED: " + pauseMenu.dataSaved);
-            cinematicPlayed = pauseMenu.dataSaved.cinematicPlayed;
-
-            if(pauseMenu.dataSaved.cinematicPlayed == true)
-            {
-                Debug.Log("Ya se ejecuto la cinematica");
-                //pauseMenu.Resume();
-
-                Destroy(startCanvasParent);
-                Destroy(timeline);
-
-                startCanvas.SetActive(false);
-                compassCanvas.SetActive(true);
-                playerController.enabled = true;
-            }
-        }
-    }
-
-    //private void Awake()
-    //{
-    //    // Por defecto desactivamos todo
-    //    if (startCanvas != null) startCanvas.SetActive(false);
-    //    if (compassCanvas != null) compassCanvas.SetActive(false);
-    //    if (playerController != null) playerController.enabled = false;
-    //}
-
-
-    /*private void Start()
-    {
-        // Aquí ya PauseMenu puede haber cargado el estado
-        if (!cinematicPlayed)
-        {
-            // Si nunca se vio la cinemática -> la reproducimos
-            if (startCanvas != null) startCanvas.SetActive(true);
-            if (compassCanvas != null) compassCanvas.SetActive(false);
-            if (playerController != null) playerController.enabled = false;
-
-            if (playerPosition != null && startPosition != null)
-                playerPosition.position = startPosition.position;
-
-            StartCoroutine(IntroScene());
-        }
-        else
-        {
-            // Si ya se vio → activamos todo directamente
-            if (startCanvas != null) startCanvas.SetActive(false);
-            if (compassCanvas != null) compassCanvas.SetActive(true);
-            if (playerController != null) playerController.enabled = true;
-        }
-    }
-    //void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    //{
-    //    // Código a ejecutar después de cargar la escena
-    //    Debug.Log("Nivel cargado: " + scene.name);
-
-    //    playerController.enabled = false;
-    //    StartCoroutine(IntroScene());
-
-    //    // Aquí puedes acceder a objetos en la escena y realizar acciones como:
-    //    // - Activar/desactivar objetos
-    //    // - Configurar la posición inicial del jugador
-    //    // - Cargar datos guardados
-    //}
-
-    IEnumerator IntroScene()
-    {
-        yield return new WaitForSeconds(3f);
-        //startCanvas.SetActive(true);
-        if (startCanvas != null) startCanvas.SetActive(true);
-
-        yield return new WaitForSeconds(7f);
-        //startCanvas.SetActive(false);
-        //playerController.enabled = true;
-        if (startCanvas != null) startCanvas.SetActive(false);
-        if (playerController != null) playerController.enabled = true;
-
-        yield return new WaitForSeconds(2f);
-        //compassCanvas.SetActive(true);
-        if (compassCanvas != null) compassCanvas.SetActive(true);
-
-        cinematicPlayed = true;
-    }*/
-
-    // <summary>
-    /// Se llama desde PauseMenu después de LoadGame()
+    /// <summary>
+    /// Llamado desde PauseMenu después de LoadGame()
+    /// Decide si reproducir o saltar la intro
     /// </summary>
     public void InitCinematic()
     {
         if (!cinematicPlayed)
         {
-            // Reproducir intro
+            Debug.Log("NO se ha ejecutado la cinemática, iniciando...");
+
             if (startCanvas != null) startCanvas.SetActive(true);
             if (compassCanvas != null) compassCanvas.SetActive(false);
             if (playerController != null) playerController.enabled = false;
 
+            // Solo mover al jugador la primera vez
             if (playerPosition != null && startPosition != null)
                 playerPosition.position = startPosition.position;
 
@@ -169,14 +43,21 @@ public class LevelController : MonoBehaviour
         }
         else
         {
-            // Saltar intro, activar juego directamente
+            Debug.Log("Cinemática ya ejecutada previamente, saltando intro.");
+
+            if (startCanvasParent != null) Destroy(startCanvasParent);
+            if (timeline != null) Destroy(timeline);
+
             if (startCanvas != null) startCanvas.SetActive(false);
             if (compassCanvas != null) compassCanvas.SetActive(true);
             if (playerController != null) playerController.enabled = true;
+
+            // Aquí NO tocamos la posición del jugador,
+            // porque ya la restauró PauseMenu.LoadGame()
         }
     }
 
-    IEnumerator IntroScene()
+    private IEnumerator IntroScene()
     {
         yield return new WaitForSeconds(3f);
         if (startCanvas != null) startCanvas.SetActive(true);
@@ -188,7 +69,7 @@ public class LevelController : MonoBehaviour
         yield return new WaitForSeconds(2f);
         if (compassCanvas != null) compassCanvas.SetActive(true);
 
-        //cinematicPlayed = true; // marcar como vista
+        cinematicPlayed = true; // marcar como vista
     }
 }
 
