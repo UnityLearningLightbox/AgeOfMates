@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using UnityEngine.SceneManagement;
@@ -9,7 +9,8 @@ public class SaveData
     public float playerPosX;
     public float playerPosY;
     public float playerPosZ;
-    public List<string> inventoryItems; // ahora activado
+    public List<string> inventoryItems;
+    public bool cinematicPlayed; 
 }
 
 public class PauseMenu : MonoBehaviour
@@ -25,12 +26,12 @@ public class PauseMenu : MonoBehaviour
     [Header("Player & Inventory")]
     [SerializeField] private MonoBehaviour playerControllerScript;
     [SerializeField] private Transform playerTransform;
-    [SerializeField] private InventoryUI playerInventory; // ahora activado
+    [SerializeField] private InventoryUI playerInventory;
 
     [Header("Save Settings")]
     [SerializeField] private string saveFileName = "save.json";
+    [SerializeField] LevelController cinematic;
 
-    private bool playerControllerWasEnabled = true;
     public static bool GameIsPaused { get; private set; }
 
     private string savePath;
@@ -38,8 +39,6 @@ public class PauseMenu : MonoBehaviour
     void Awake()
     {
         savePath = Path.Combine(Application.persistentDataPath, saveFileName);
-
-        playerControllerWasEnabled = playerControllerScript != null ? playerControllerScript.enabled : true;
 
         if (pauseMenuUI != null) pauseMenuUI.SetActive(false);
         if (saveMessageUI != null) saveMessageUI.SetActive(false);
@@ -79,15 +78,16 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 1f;
         GameIsPaused = false;
 
-        if (playerControllerScript != null) playerControllerScript.enabled = playerControllerWasEnabled;
+        if (playerControllerScript != null) playerControllerScript.enabled = true; // siempre reactivar
+
         LockCursor(true);
     }
 
     public void SaveGame()
     {
-        if (playerTransform == null || playerInventory == null)
+        if (playerTransform == null || playerInventory == null || cinematic == null)
         {
-            Debug.LogWarning("PauseMenu: Player o Inventario no asignados.");
+            Debug.LogWarning("PauseMenu: Player, Inventario o Cinematic no asignados.");
             return;
         }
 
@@ -96,7 +96,8 @@ public class PauseMenu : MonoBehaviour
             playerPosX = playerTransform.position.x,
             playerPosY = playerTransform.position.y,
             playerPosZ = playerTransform.position.z,
-            inventoryItems = playerInventory.GetInventoryIDs()
+            inventoryItems = playerInventory.GetInventoryIDs(),
+            cinematicPlayed = cinematic.cinematicPlayed // Guardamos estado de la cinemática
         };
 
         string json = JsonUtility.ToJson(data, true);
@@ -123,14 +124,19 @@ public class PauseMenu : MonoBehaviour
     {
         if (!File.Exists(savePath))
         {
-            Debug.Log("No se encontr� archivo de guardado, juego nuevo.");
+            Debug.Log("No se encontró archivo de guardado, juego nuevo.");
+
+            // Si no hay partida previa, inicializar cinemática desde cero
+            if (cinematic != null)
+                cinematic.InitCinematic();
+
             return;
         }
 
         string json = File.ReadAllText(savePath);
         SaveData data = JsonUtility.FromJson<SaveData>(json);
 
-        // Posici�n del jugador
+        // Posición del jugador
         if (playerTransform != null)
             playerTransform.position = new Vector3(data.playerPosX, data.playerPosY, data.playerPosZ);
 
@@ -144,7 +150,7 @@ public class PauseMenu : MonoBehaviour
             }
         }
 
-        // Destruir objetos en la escena que ya est�n en el inventario
+        // Destruir objetos en la escena que ya están en el inventario
         foreach (var id in data.inventoryItems)
         {
             GameObject[] objetosEnEscena = GameObject.FindGameObjectsWithTag(id);
@@ -152,6 +158,14 @@ public class PauseMenu : MonoBehaviour
             {
                 Destroy(obj);
             }
+        }
+
+        // Restaurar estado de la cinemática
+        if (cinematic != null)
+        {
+            cinematic.cinematicPlayed = data.cinematicPlayed;
+            cinematic.InitCinematic(); // aquí decidimos si mostrarla o saltarla
+            Debug.Log("Cinemática jugada: " + cinematic.cinematicPlayed);
         }
 
         Debug.Log("Juego cargado desde: " + savePath);
